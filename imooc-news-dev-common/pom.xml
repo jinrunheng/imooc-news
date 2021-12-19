@@ -11,6 +11,13 @@
 
     <!--common 为公共模块，包含一些通用的工具类，枚举，封装的一些公共方法等-->
     <artifactId>imooc-news-dev-common</artifactId>
-
+    <dependencies>
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+        </dependency>
+    </dependencies>
 
 </project>
