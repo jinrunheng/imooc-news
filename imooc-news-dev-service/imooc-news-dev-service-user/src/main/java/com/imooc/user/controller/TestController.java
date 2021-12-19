@@ -1,12 +1,11 @@
 package com.imooc.user.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import com.imooc.api.controller.user.TestControllerApi;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class TestController {
+public class TestController implements TestControllerApi {
 
-    @GetMapping("/hello")
     public Object test() {
         return "hello";
     }
