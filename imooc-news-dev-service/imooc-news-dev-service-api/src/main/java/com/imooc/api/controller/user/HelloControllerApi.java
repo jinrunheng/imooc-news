@@ -2,8 +2,8 @@ package com.imooc.api.controller.user;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
-public interface TestControllerApi {
+public interface HelloControllerApi {
 
     @GetMapping("/hello")
-    Object test();
+    Object hello();
 }
