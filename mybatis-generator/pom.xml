@@ -63,4 +63,45 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>5.2.4</version>
+                <configuration>
+                    <url>jdbc:mysql://localhost:3306/test</url>
+                    <user>postgres</user>
+                    <password>java</password>
+                    <outOfOrder>true</outOfOrder>
+                    <baselineOnMigrate>true</baselineOnMigrate>
+                    <placeholderReplacement>false</placeholderReplacement>
+                    <encoding>UTF-8</encoding>
+                    <table>fsl_schema_version</table>
+                    <locations>
+                        <location>db/migration/</location>
+                    </locations>
+                </configuration>
+            </plugin>
+
+
+            <!--flyway-->
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>5.2.4</version>
+                <configuration>
+                    <url>jdbc:mysql://localhost:3306/imooc-news-dev</url>
+                    <user>root</user>
+                    <password>123</password>
+                    <baselineOnMigrate>true</baselineOnMigrate>
+                    <placeholderReplacement>false</placeholderReplacement>
+                    <encoding>UTF-8</encoding>
+                    <locations>
+                        <location>db/migration/</location>
+                    </locations>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

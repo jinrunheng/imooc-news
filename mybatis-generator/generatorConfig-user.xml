@@ -19,14 +19,14 @@
                         password="123">
         </jdbcConnection>
 
-        <!-- 对应生成的 pojo 所在包 -->
+        <!-- 生成对应的 pojo 所在目录 -->
         <javaModelGenerator targetPackage="com.imooc.pojo" targetProject="mybatis-generator/src/main/java"/>
 
-        <!-- 对应生成的 mapper 所在目录 -->
+        <!-- 生成对应的 mapper 所在目录 -->
         <sqlMapGenerator targetPackage="mapper.user" targetProject="mybatis-generator/src/main/resources"/>
 
-        <!-- 配置 mapper 对应的java映射 -->
-        <javaClientGenerator targetPackage="com.imooc.user.mapper" targetProject="mybatis-generator/src/main/java" type="XMLMAPPER"/>
+        <!-- 生成对应的 mapper 接口所在目录 -->
+        <javaClientGenerator targetPackage="com.imooc.mapper.user" targetProject="mybatis-generator/src/main/java" type="XMLMAPPER"/>
 
         <!-- 数据库表 -->
         <table tableName="app_user"></table>
