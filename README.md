@@ -1,7 +1,7 @@
 ## imooc-news
 
 
-#### 使用 Docker + Flyway 运行 MySQL 容器，并完成数据的初始化
+#### 使用 Docker + Flyway 启动 MySQL 容器，并完成数据的初始化
 
 - 下载 MySQL 镜像
     ```bash
