@@ -13,6 +13,8 @@ import com.tencentcloudapi.sms.v20210111.models.SendSmsResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 /**
  * @Author Dooby Kim
  * @Date 2021/12/20 9:10 下午
@@ -54,11 +56,6 @@ public class SMSUtils {
             request.setTemplateId(templateId);
             String[] phoneNumberSet = {"+86" + phone};
             request.setPhoneNumberSet(phoneNumberSet);
-            String senderid = "";
-            request.setSenderId(secretId);
-            /* 短信号码扩展号: 默认未开通，如需开通请联系 [sms helper] */
-            String extendCode = "";
-            request.setExtendCode(extendCode);
             // 模版内容：验证码为：{1}，您正在登录，若非本人操作，请勿泄露。
             String[] templateParam = {code};
             request.setTemplateParamSet(templateParam);
@@ -69,5 +66,14 @@ public class SMSUtils {
         } catch (TencentCloudSDKException e) {
             log.error(e.getMessage());
         }
+    }
+
+    /**
+     * 生成随机的四位验证码（小写）
+     *
+     * @return
+     */
+    public String generateSMSCode() {
+        return UUID.randomUUID().toString().substring(0, 4).toLowerCase();
     }
 }
