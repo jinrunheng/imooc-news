@@ -7,8 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Random;
-import java.util.UUID;
+import java.util.Map;
 
 /**
  * @Author Dooby Kim
@@ -26,7 +25,13 @@ public class PassportController implements PassportControllerApi {
     public JsonResult getSMSCode() {
         // 随机生成四位数字的验证码
         String code = smsUtils.generateSMSCode();
-        smsUtils.sendSMS("15526787357", code);
-        return JsonResult.ok();
+        Map<String, String> result = smsUtils.sendSMS("15526787357", code);
+        if (result != null
+                && result.get("code").equals("Ok")
+                && result.get("msg").equals("send success")) {
+            return JsonResult.ok();
+        } else {
+            return JsonResult.error();
+        }
     }
 }

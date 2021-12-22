@@ -55,6 +55,10 @@
             <artifactId>tencentcloud-sdk-java</artifactId>
             <version>3.1.270</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -47,6 +47,7 @@
 
         <slf4j.version>1.7.21</slf4j.version>
         <joda-time.version>2.10.6</joda-time.version>
+        <fastjson.version>1.2.75</fastjson.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -159,6 +160,11 @@
                 <groupId>com.github.tobato</groupId>
                 <artifactId>fastdfs-client</artifactId>
                 <version>${fastdfs.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

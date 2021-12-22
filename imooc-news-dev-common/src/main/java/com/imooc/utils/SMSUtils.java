@@ -2,18 +2,22 @@ package com.imooc.utils;
 
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
-//导入可选配置类
 import com.tencentcloudapi.common.profile.ClientProfile;
 import com.tencentcloudapi.common.profile.HttpProfile;
-// 导入对应SMS模块的client
 import com.tencentcloudapi.sms.v20210111.SmsClient;
-// 导入要请求接口对应的request response类
 import com.tencentcloudapi.sms.v20210111.models.SendSmsRequest;
 import com.tencentcloudapi.sms.v20210111.models.SendSmsResponse;
+import com.tencentcloudapi.sms.v20210111.models.SendStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
+
+//导入可选配置类
+// 导入对应SMS模块的client
+// 导入要请求接口对应的request response类
 
 /**
  * @Author Dooby Kim
@@ -27,7 +31,7 @@ public class SMSUtils {
 //     @Resource
 //     public TencentResource tencentResource;
 
-    public void sendSMS(String phone, String code) {
+    public Map<String, String> sendSMS(String phone, String code) {
         try {
             String secretId = System.getenv("TENCENT_SECRET_ID");
             String secretKey = System.getenv("TENCENT_SECRET_KEY");
@@ -62,10 +66,18 @@ public class SMSUtils {
 
             // 返回的 response 是一个 SendSmsResponse 实例，与请求对象对应
             SendSmsResponse response = client.SendSms(request);
-            System.out.println(SendSmsResponse.toJsonString(response));
+            SendStatus[] sendStatusSet = response.getSendStatusSet();
+            String statusCode = sendStatusSet[0].getCode();
+            String msg = sendStatusSet[0].getMessage();
+            Map<String, String> result = new HashMap<>();
+            result.put("code", statusCode);
+            result.put("msg", msg);
+            return result;
+
         } catch (TencentCloudSDKException e) {
             log.error(e.getMessage());
         }
+        return null;
     }
 
     /**
