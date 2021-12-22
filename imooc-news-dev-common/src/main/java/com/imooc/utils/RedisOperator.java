@@ -1,5 +1,6 @@
 package com.imooc.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.StringRedisConnection;
@@ -22,7 +23,11 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisOperator {
 
-    @Resource
+    // 在这里面务必要用 @Autowired 进行注入，或者使用 @Resource 注入时候，bean 的名称不要使用 redisTemplate
+    // @Resource
+    // private StringRedisTemplate stringRedisTemplate
+    // 原因在于，@Resource 注解会按照 bean byName 进行注入
+    @Autowired
     private StringRedisTemplate redisTemplate;
 
     /**
@@ -86,6 +91,16 @@ public class RedisOperator {
     }
 
     /**
+     * 设置 K-V
+     *
+     * @param key
+     * @param value
+     */
+    public void set(String key, String value) {
+        redisTemplate.opsForValue().set(key, value);
+    }
+
+    /**
      * set if not exist；如果 Key 不存在，则设置，如果存在，则报错
      *
      * @param key
@@ -93,6 +108,16 @@ public class RedisOperator {
      */
     public void setnx(String key, String value) {
         redisTemplate.opsForValue().setIfAbsent(key, value);
+    }
+
+    /**
+     * 返回 Key 对应的 Value
+     *
+     * @param key
+     * @return
+     */
+    public String get(String key) {
+        return redisTemplate.opsForValue().get(key);
     }
 
     /**
