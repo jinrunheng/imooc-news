@@ -10,7 +10,8 @@ import org.junit.jupiter.api.Test;
 class SMSUtilsTest {
 
     @Test
-    void testSendSMS() {
-
+    void sendSMS() {
+        SMSUtils smsUtils = new SMSUtils();
+        smsUtils.sendSMS("17695780094", "1234");
     }
 }

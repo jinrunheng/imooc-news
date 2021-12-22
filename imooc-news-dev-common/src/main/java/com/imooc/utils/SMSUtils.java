@@ -1,12 +1,17 @@
 package com.imooc.utils;
 
-import com.aliyun.dysmsapi20170525.Client;
-import com.aliyun.dysmsapi20170525.models.SendSmsRequest;
-import com.aliyun.teaopenapi.models.*;
-import com.imooc.resource.aliyun.AliyunResource;
+import com.tencentcloudapi.common.Credential;
+import com.tencentcloudapi.common.exception.TencentCloudSDKException;
+//导入可选配置类
+import com.tencentcloudapi.common.profile.ClientProfile;
+import com.tencentcloudapi.common.profile.HttpProfile;
+// 导入对应SMS模块的client
+import com.tencentcloudapi.sms.v20210111.SmsClient;
+// 导入要请求接口对应的request response类
+import com.tencentcloudapi.sms.v20210111.models.SendSmsRequest;
+import com.tencentcloudapi.sms.v20210111.models.SendSmsResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * @Author Dooby Kim
@@ -14,29 +19,55 @@ import javax.annotation.Resource;
  * @Version 1.0
  */
 @Component
+@Slf4j
 public class SMSUtils {
 
+//     @Resource
+//     public TencentResource tencentResource;
 
-    @Resource
-    public AliyunResource aliyunResource;
+    public void sendSMS(String phone, String code) {
+        try {
+            String secretId = System.getenv("TENCENT_SECRET_ID");
+            String secretKey = System.getenv("TENCENT_SECRET_KEY");
+            Credential credential = new Credential(secretId, secretKey);
 
-    public void sendSMS() throws Exception {
-        Client client = SMSUtils.createClient(aliyunResource);
+            // 实例化一个 http 选项，可选，无特殊需求可以跳过
+            HttpProfile httpProfile = new HttpProfile();
+            // httpProfile.setReqMethod("POST"); // 默认使用 POST 请求
+            httpProfile.setEndpoint("sms.tencentcloudapi.com");
 
-        SendSmsRequest sendSmsRequest = new SendSmsRequest()
-                .setSignName("阿里云短信测试")
-                .setTemplateCode("SMS_154950909")
-                .setPhoneNumbers("15526787357");
-        client.sendSms(sendSmsRequest);
-    }
+            // 实例化一个 Client 选项
+            ClientProfile clientProfile = new ClientProfile();
+            clientProfile.setHttpProfile(httpProfile);
+            clientProfile.setDebug(true);
+            // 实例化要请求产品(以cvm为例)的client对象,clientProfile是可选的
+            SmsClient client = new SmsClient(credential, "ap-guangzhou", clientProfile);
 
-    private static Client createClient(AliyunResource resource) throws Exception {
-        Config config = new Config()
-                .setAccessKeyId(resource.getAccessKeyId())
-                .setAccessKeySecret(resource.getAccessKeySecret());
+            // 实例化一个请求对象，每个接口都会对应一个 request 对象
+            SendSmsRequest request = new SendSmsRequest();
+            /* 短信应用ID: 短信SdkAppId在 [短信控制台] 添加应用后生成的实际SdkAppId，示例如1400006666 */
+            String sdkAppId = "1400612346";
+            request.setSmsSdkAppId(sdkAppId);
+            String signName = "憨憨二师兄个人公众号";
+            request.setSignName(signName);
+            String templateId = "1250896";
+            request.setTemplateId(templateId);
+            String[] phoneNumberSet = {"+86" + phone};
+            request.setPhoneNumberSet(phoneNumberSet);
+            String senderid = "";
+            request.setSenderId(secretId);
+            /* 短信号码扩展号: 默认未开通，如需开通请联系 [sms helper] */
+            String extendCode = "";
+            request.setExtendCode(extendCode);
+            // 模版内容：验证码为：{1}，您正在登录，若非本人操作，请勿泄露。
+            String[] templateParam = {code};
+            request.setTemplateParamSet(templateParam);
 
-        // 访问的域名
-        config.endpoint = "dysmsapi.aliyuncs.com";
-        return new Client(config);
+            // 返回的 response 是一个 SendSmsResponse 实例，与请求对象对应
+            SendSmsResponse response = client.SendSms(request);
+            System.out.println(SendSmsResponse.toJsonString(response));
+        } catch (TencentCloudSDKException e) {
+            log.error(e.getMessage());
+        }
     }
 }
