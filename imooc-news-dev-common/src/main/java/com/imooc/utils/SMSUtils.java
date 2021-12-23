@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 //导入可选配置类
@@ -81,11 +82,15 @@ public class SMSUtils {
     }
 
     /**
-     * 生成随机的四位验证码（小写）
+     * 生成随机的四位验证码，只能是四位数字
      *
      * @return
      */
     public String generateSMSCode() {
-        return UUID.randomUUID().toString().substring(0, 4).toLowerCase();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < 4; i++) {
+            sb.append((int)(Math.random() * 9 + 1));
+        }
+        return sb.toString();
     }
 }
