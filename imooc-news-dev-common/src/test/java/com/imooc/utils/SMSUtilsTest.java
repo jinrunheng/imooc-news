@@ -17,14 +17,14 @@ class SMSUtilsTest {
     void sendSMS() {
         SMSUtils smsUtils = new SMSUtils();
         String code = smsUtils.generateSMSCode();
-        smsUtils.sendSMS("17748678786", "1234");
+        smsUtils.sendSMS("15526787357", code);
     }
 
     @Test
     void generateSMSCode() {
         SMSUtils smsUtils = new SMSUtils();
         String code = smsUtils.generateSMSCode();
-        Assertions.assertEquals(code.length(), 4);
+        Assertions.assertEquals(code.length(), 6);
         Assertions.assertTrue(isNumeric(code));
     }
 

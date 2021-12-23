@@ -34,12 +34,12 @@ public class PassportController implements PassportControllerApi {
         String userIp = IPUtils.getIPAddress(request);
         // 通过 Redis 存储用户的 ip；限制用户在 60 秒内只能获取一次验证码
         redisOperator.setnx(RedisKeyUtils.userIpKey(userIp), userIp, 60);
-        // 随机生成四位数字的验证码
+        // 随机生成六位数字的验证码
         String code = smsUtils.generateSMSCode();
         // 通过 Redis 存储用户的验证码，存储时长为 30 min
         redisOperator.set(RedisKeyUtils.userCodeKey(code), code, 30 * 60);
 
-        Map<String, String> result = smsUtils.sendSMS(phone, code);
+        Map<String, String> result = smsUtils.sendSMS("15526787357", code);
         if (result != null
                 && result.get("code").equals("Ok")
                 && result.get("msg").equals("send success")) {
