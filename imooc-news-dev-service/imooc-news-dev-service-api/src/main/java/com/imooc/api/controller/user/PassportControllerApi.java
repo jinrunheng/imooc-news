@@ -4,6 +4,7 @@ import com.imooc.result.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  * @Description 用户通行证 Controller 接口
  */
 @Api(value = "PassportController", tags = {"用户注册登录通行证"})
+@RequestMapping("passport")
 public interface PassportControllerApi {
 
     @ApiOperation(value = "获取短信验证码", notes = "获取短信验证码", httpMethod = "GET")

@@ -83,13 +83,14 @@ public class SMSUtils {
 
     /**
      * 生成随机的四位验证码，只能是四位数字
+     * 不建议使用 (Math.random() * 9 + 1) * 10000 这种方式
      *
      * @return
      */
     public String generateSMSCode() {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < 4; i++) {
-            sb.append((int)(Math.random() * 9 + 1));
+            sb.append((int) (Math.random() * 9 + 1));
         }
         return sb.toString();
     }

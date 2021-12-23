@@ -111,6 +111,17 @@ public class RedisOperator {
     }
 
     /**
+     * set if not exist；如果 Key 不存在，则设置，如果存在，则报错
+     *
+     * @param key
+     * @param value
+     * @param timeout
+     */
+    public void setnx(String key, String value, long timeout) {
+        redisTemplate.opsForValue().setIfAbsent(key, value, timeout, TimeUnit.SECONDS);
+    }
+
+    /**
      * 返回 Key 对应的 Value
      *
      * @param key
