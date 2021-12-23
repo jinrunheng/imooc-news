@@ -1,5 +1,7 @@
 package com.imooc.api.interceptor;
 
+import com.imooc.exception.MyCustomException;
+import com.imooc.result.ResponseStatus;
 import com.imooc.utils.IPUtils;
 import com.imooc.utils.RedisKeyUtils;
 import com.imooc.utils.RedisOperator;
@@ -36,8 +38,7 @@ public class PassportInterceptor implements HandlerInterceptor {
         boolean keyIsExist = redisOperator.hasKey(RedisKeyUtils.userIpKey(ip));
         if (keyIsExist) {
             // 如果 key 存在，说明用户获取验证码时间还没有超过 60 秒
-            // TODO
-            System.out.println("短信发送频率过高");
+            MyCustomException.display(ResponseStatus.SMS_SEND_TOO_FAST_ERROR);
             return false;
         }
         return true;

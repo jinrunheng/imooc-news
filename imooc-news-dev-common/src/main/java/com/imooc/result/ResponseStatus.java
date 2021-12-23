@@ -13,7 +13,10 @@ import lombok.Getter;
 public enum ResponseStatus {
 
     SUCCESS(200, true, "操作成功"),
-    FAILED(500, false, "操作失败");
+    FAILED(500, false, "操作失败"),
+
+    // 短信发送频率过快
+    SMS_SEND_TOO_FAST_ERROR(505, false, "短信发送频率过快，请稍后再试");
 
     private Integer status;
     private Boolean success;
