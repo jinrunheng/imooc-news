@@ -1,16 +1,22 @@
 package com.imooc.user.controller;
 
 import com.imooc.api.controller.user.PassportControllerApi;
+import com.imooc.bo.RegisterLoginBO;
 import com.imooc.result.JsonResult;
+import com.imooc.result.ResponseStatus;
 import com.imooc.utils.IPUtils;
 import com.imooc.utils.RedisKeyUtils;
 import com.imooc.utils.RedisOperator;
 import com.imooc.utils.SMSUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -47,5 +53,32 @@ public class PassportController implements PassportControllerApi {
         } else {
             return JsonResult.error();
         }
+    }
+
+    @Override
+    public JsonResult doLogin(@Valid RegisterLoginBO registerLoginBO, BindingResult result) {
+        // 判断 BindingResult 中是否绑定了错误的验证信息，如果有则返回
+        if (result.hasErrors()) {
+            Map<String, String> errors = getErrors(result);
+            return new JsonResult(ResponseStatus.FAILED, errors);
+        }
+        // 校验验证码是否匹配
+        String smsCode = registerLoginBO.getSmsCode();
+        String redis_smsCode = redisOperator.get(RedisKeyUtils.userCodeKey(smsCode));
+        if (StringUtils.isEmpty(redis_smsCode) || !StringUtils.equals(smsCode, redis_smsCode)) {
+            return new JsonResult(ResponseStatus.SMS_CODE_ERROR);
+        }
+        return JsonResult.ok();
+    }
+
+    /**
+     * 获取 BO 中的错误信息
+     *
+     * @param result
+     */
+    private Map<String, String> getErrors(BindingResult result) {
+        Map<String, String> map = new HashMap<>();
+        result.getFieldErrors().forEach(error -> map.put(error.getField(), error.getDefaultMessage()));
+        return map;
     }
 }
