@@ -29,14 +29,7 @@ class PassportControllerTest {
     private WebApplicationContext context;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-    }
-
-    @Test
-    void getSMSCode() throws Exception {
-        mockMvc.perform(get("/getSMSCode"))
-                .andExpect(status().isOk())
-                .andExpect(result -> Assertions.assertTrue((Boolean) new JSONObject(result.getResponse().getContentAsString()).get("success")));
     }
 }
