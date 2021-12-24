@@ -1,7 +1,7 @@
 package com.imooc.api.interceptor;
 
 import com.imooc.exception.MyCustomException;
-import com.imooc.result.ResponseStatus;
+import com.imooc.enums.ResponseStatus;
 import com.imooc.utils.IPUtils;
 import com.imooc.utils.RedisKeyUtils;
 import com.imooc.utils.RedisOperator;

@@ -1,7 +1,6 @@
 package com.imooc.exception;
 
 import com.imooc.result.JsonResult;
-import com.imooc.result.ResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

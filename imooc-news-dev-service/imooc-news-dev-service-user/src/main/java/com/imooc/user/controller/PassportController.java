@@ -2,8 +2,11 @@ package com.imooc.user.controller;
 
 import com.imooc.api.controller.user.PassportControllerApi;
 import com.imooc.bo.RegisterLoginBO;
+import com.imooc.enums.ResponseStatus;
+import com.imooc.enums.UserStatus;
+import com.imooc.pojo.AppUser;
 import com.imooc.result.JsonResult;
-import com.imooc.result.ResponseStatus;
+import com.imooc.user.service.UserService;
 import com.imooc.utils.IPUtils;
 import com.imooc.utils.RedisKeyUtils;
 import com.imooc.utils.RedisOperator;
@@ -11,6 +14,7 @@ import com.imooc.utils.SMSUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -18,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @Author Dooby Kim
@@ -34,8 +39,11 @@ public class PassportController implements PassportControllerApi {
     @Resource
     private RedisOperator redisOperator;
 
+    @Resource
+    private UserService userService;
+
     @Override
-    public JsonResult getSMSCode(String phone, HttpServletRequest request) {
+    public JsonResult getSMSCode(String mobile, HttpServletRequest request) {
         // HttpServletRequest 可以获取到用户的 ip；根据用户的 ip 地址进行限制，限制用户在 60 秒内只能获取一次验证码
         String userIp = IPUtils.getIPAddress(request);
         // 通过 Redis 存储用户的 ip；限制用户在 60 秒内只能获取一次验证码
@@ -68,7 +76,17 @@ public class PassportController implements PassportControllerApi {
         if (StringUtils.isEmpty(redis_smsCode) || !StringUtils.equals(smsCode, redis_smsCode)) {
             return new JsonResult(ResponseStatus.SMS_CODE_ERROR);
         }
-        return JsonResult.ok();
+        // 查询数据库，该用户是否注册
+        String mobile = registerLoginBO.getMobile();
+        AppUser appUser = userService.queryMobileExist(mobile);
+        // 查询到用户，并且用户的状态为冻结
+        if (!Objects.isNull(appUser) && appUser.getActiveStatus().equals(UserStatus.FROZEN.getType())) {
+            return new JsonResult(ResponseStatus.USER_STATUS_FROZEN_ERROR);
+        } else if (Objects.isNull(appUser)) {
+            // 如果未查询到用户，则进行用户注册
+            appUser = userService.createUser(mobile);
+        }
+        return new JsonResult(ResponseStatus.SUCCESS, appUser);
     }
 
     /**

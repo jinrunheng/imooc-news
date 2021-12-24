@@ -2,7 +2,7 @@ package com.imooc.user.controller;
 
 import com.imooc.api.controller.user.HelloControllerApi;
 import com.imooc.result.JsonResult;
-import com.imooc.result.ResponseStatus;
+import com.imooc.enums.ResponseStatus;
 import com.imooc.utils.RedisOperator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

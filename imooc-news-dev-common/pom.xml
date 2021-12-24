@@ -110,6 +110,12 @@
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
         </dependency>
+        <!--idworker-->
+        <dependency>
+            <groupId>com.github.bingoohuang</groupId>
+            <artifactId>idworker-client</artifactId>
+            <version>0.0.7</version>
+        </dependency>
     </dependencies>
 
 </project>

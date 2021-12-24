@@ -1,6 +1,6 @@
 package com.imooc.exception;
 
-import com.imooc.result.ResponseStatus;
+import com.imooc.enums.ResponseStatus;
 import lombok.Getter;
 import lombok.Setter;
 
