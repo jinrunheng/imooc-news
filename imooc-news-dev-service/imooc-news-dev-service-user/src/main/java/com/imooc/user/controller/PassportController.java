@@ -13,6 +13,7 @@ import com.imooc.utils.RedisOperator;
 import com.imooc.utils.SMSUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,6 +46,9 @@ public class PassportController implements PassportControllerApi {
 
     @Resource
     private UserService userService;
+
+    @Value("${website.domain-name}")
+    public String domainName;
 
     @Override
     public JsonResult getSMSCode(String mobile, HttpServletRequest request) {
@@ -145,7 +149,7 @@ public class PassportController implements PassportControllerApi {
 
         Cookie cookie = new Cookie(cookieName, cookieValue);
 
-        cookie.setDomain("imoocnews.com");
+        cookie.setDomain(domainName);
         cookie.setMaxAge(maxAge);
         cookie.setPath("/");
         response.addCookie(cookie);
