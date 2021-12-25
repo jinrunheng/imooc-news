@@ -67,6 +67,24 @@ public class PassportController implements PassportControllerApi {
         }
     }
 
+    /**
+     * 一键登录与注册
+     * 流程：
+     * 1. 首先进行 @Valid 校验；判断 BindingResult 中是否绑定了错误的验证信息，即：@NotBlank(message = "手机号不能为空") 与 @NotNull(message = "短信验证码不能为空")，如果有则返回
+     * 2. 校验用户输入的验证码与存储在 Redis 中的验证码是否匹配，如果不匹配则返回
+     * 3. 查询数据库，判断该用户是否注册
+     * ---- 1. 如果查询到用户已注册，且状态为冻结，则返回提示用户
+     * ---- 2. 如果在数据库中未查询到用户的信息，则进行用户注册
+     * 4. 生成用户的 token 信息，存储到 Redis 分布式缓存中
+     * 5. 将用户的 id 与 token 保存到 Cookie 中，设置有效期为 1 个月
+     * 6. 返回用户的状态信息给前端
+     *
+     * @param registerLoginBO
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
     @Override
     public JsonResult doLogin(@Valid RegisterLoginBO registerLoginBO, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         // 判断 BindingResult 中是否绑定了错误的验证信息(@Valid 校验)，如果有则返回
@@ -94,7 +112,7 @@ public class PassportController implements PassportControllerApi {
         // 生成用户 Token，保存到分布式 Redis 集群中（分布式会话）
         String utoken = generateToken();
         redisOperator.set(RedisKeyUtils.userTokenKey(appUser.getId()), utoken);
-        // 保存用户 ID 与 Token 到 Cookie 中
+        // 保存用户 id 与 token 到 Cookie 中
         try {
             // 设置 Cookie 保存时间为一个月
             setCookie(request, response, "utoken", URLEncoder.encode(utoken, "utf-8"), 30 * 24 * 60 * 60);
