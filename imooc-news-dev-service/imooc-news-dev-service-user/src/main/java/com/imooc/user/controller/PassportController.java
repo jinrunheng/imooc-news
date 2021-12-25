@@ -14,15 +14,19 @@ import com.imooc.utils.SMSUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @Author Dooby Kim
@@ -64,8 +68,8 @@ public class PassportController implements PassportControllerApi {
     }
 
     @Override
-    public JsonResult doLogin(@Valid RegisterLoginBO registerLoginBO, BindingResult result) {
-        // 判断 BindingResult 中是否绑定了错误的验证信息，如果有则返回
+    public JsonResult doLogin(@Valid RegisterLoginBO registerLoginBO, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+        // 判断 BindingResult 中是否绑定了错误的验证信息(@Valid 校验)，如果有则返回
         if (result.hasErrors()) {
             Map<String, String> errors = getErrors(result);
             return new JsonResult(ResponseStatus.FAILED, errors);
@@ -86,7 +90,56 @@ public class PassportController implements PassportControllerApi {
             // 如果未查询到用户，则进行用户注册
             appUser = userService.createUser(mobile);
         }
-        return new JsonResult(ResponseStatus.SUCCESS, appUser);
+
+        // 生成用户 Token，保存到分布式 Redis 集群中（分布式会话）
+        String utoken = generateToken();
+        redisOperator.set(RedisKeyUtils.userTokenKey(appUser.getId()), utoken);
+        // 保存用户 ID 与 Token 到 Cookie 中
+        try {
+            // 设置 Cookie 保存时间为一个月
+            setCookie(request, response, "utoken", URLEncoder.encode(utoken, "utf-8"), 30 * 24 * 60 * 60);
+            setCookie(request, response, "uid", URLEncoder.encode(appUser.getId(), "utf-8"), 30 * 24 * 60 * 60);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        // 用户登录或注册成功后，需要删除 Redis 中的短信验证码，验证码只能使用一次
+        redisOperator.delete(RedisKeyUtils.userCodeKey(smsCode));
+
+        // 返回用户的状态(与前端的约定)
+        return new JsonResult(ResponseStatus.SUCCESS, appUser.getActiveStatus());
+    }
+
+    /**
+     * 设置 Cookie
+     *
+     * @param request
+     * @param response
+     * @param cookieName
+     * @param cookieValue
+     * @param maxAge
+     */
+    private void setCookie(HttpServletRequest request,
+                           HttpServletResponse response,
+                           String cookieName,
+                           String cookieValue,
+                           Integer maxAge) {
+
+        Cookie cookie = new Cookie(cookieName, cookieValue);
+
+        cookie.setDomain("imoocnews.com");
+        cookie.setMaxAge(maxAge);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+    }
+
+    /**
+     * 生成用户 Token
+     *
+     * @return
+     */
+    private String generateToken() {
+        return UUID.randomUUID().toString();
     }
 
     /**

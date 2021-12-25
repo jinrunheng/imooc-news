@@ -18,8 +18,24 @@ public class RedisKeyUtils {
         return "user:ip:" + userip;
     }
 
+    /**
+     * Redis 中存储用户验证码的 Key
+     *
+     * @param code
+     * @return
+     */
     public static String userCodeKey(String code) {
         return "user:code:" + code;
+    }
+
+    /**
+     * Redis 中存储用户 Token 的 Key
+     *
+     * @param userId
+     * @return
+     */
+    public static String userTokenKey(String userId) {
+        return "user:token:" + userId;
     }
 
 }
