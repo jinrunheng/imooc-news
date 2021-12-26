@@ -22,8 +22,10 @@ public enum ResponseStatus {
     SMS_CODE_ERROR(506, false, "验证码过期或不匹配，请稍后再试"),
     // 用户账号被冻结，禁止登录
     USER_STATUS_FROZEN_ERROR(507, false, "用户账号已被冻结，请联系管理员"),
+    // 用户信息更新失败
+    USER_UPDATE_ERROR(508, false, "用户信息更新失败，请联系管理员"),
     // 用户账号未激活
-    USER_STATUS_INACTIVE_ERROR(508, false, "您的账号未激活，请前往[账号设置]进行激活");
+    USER_STATUS_INACTIVE_ERROR(509, false, "您的账号未激活，请前往[账号设置]进行激活");
     private Integer status;
     private Boolean success;
     private String msg;

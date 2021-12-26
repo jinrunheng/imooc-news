@@ -1,12 +1,16 @@
 package com.imooc.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "app_user")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AppUser {
     @Id
     private String id;

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -75,8 +74,7 @@ public class UserInfoController extends BaseController implements UserInfoContro
             return new JsonResult(ResponseStatus.FAILED, errors);
         }
         // 执行更新操作
-
+        userService.updateUserInfo(userInfoBO);
         return JsonResult.ok();
     }
-
 }

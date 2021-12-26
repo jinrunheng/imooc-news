@@ -1,13 +1,17 @@
 package com.imooc.user.service.impl;
 
+import com.imooc.bo.UpdateUserInfoBO;
+import com.imooc.enums.ResponseStatus;
 import com.imooc.enums.Sex;
 import com.imooc.enums.UserStatus;
+import com.imooc.exception.MyCustomException;
 import com.imooc.pojo.AppUser;
 import com.imooc.user.mapper.AppUserMapper;
 import com.imooc.user.service.UserService;
 import com.imooc.utils.DesensitizationUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.n3r.idworker.Sid;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
@@ -95,5 +99,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public AppUser getUser(String userId) {
         return userMapper.selectByPrimaryKey(userId);
+    }
+
+    /**
+     * 更新用户信息（激活）
+     *
+     * @param userInfoBO
+     */
+    @Override
+    public void updateUserInfo(UpdateUserInfoBO userInfoBO) {
+        AppUser newUserInfo = new AppUser();
+        BeanUtils.copyProperties(userInfoBO, newUserInfo);
+        newUserInfo.setUpdatedTime(new Date());
+        newUserInfo.setActiveStatus(UserStatus.ACTIVE.getType());
+
+        // updateByXXX 与 updateByXXXSelective 的区别为：
+        // updateByXXX 会将空的选项进行覆盖
+        // updateByXXXSelective 遇到空的字段时，则不会覆盖
+        int result = userMapper.updateByPrimaryKeySelective(newUserInfo);
+        // 更新操作会返回更新条目的数量，如果结果 result 不为 1，则说明更新失败
+        if (result != 1) {
+            MyCustomException.display(ResponseStatus.USER_UPDATE_ERROR);
+        }
     }
 }
