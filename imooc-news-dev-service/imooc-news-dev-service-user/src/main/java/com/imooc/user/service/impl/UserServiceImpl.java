@@ -8,8 +8,9 @@ import com.imooc.exception.MyCustomException;
 import com.imooc.pojo.AppUser;
 import com.imooc.user.mapper.AppUserMapper;
 import com.imooc.user.service.UserService;
+import com.imooc.utils.DateUtils;
 import com.imooc.utils.DesensitizationUtils;
-import org.apache.commons.lang3.time.DateUtils;
+import org.assertj.core.util.DateUtil;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
-import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -67,27 +67,32 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public AppUser createUser(String mobile) {
-        try {
-            AppUser user = AppUser.builder()
-                    .id(sid.nextShort())
-                    .mobile(mobile)
-                    .nickname("用户 " + DesensitizationUtils.mobileDesensitization(mobile))
-                    .face(defaultUserFace)
-                    .birthday(DateUtils.parseDate("1900-01-01", "yyyy-MM-dd"))
-                    .sex(Sex.secret.getType())
-                    .activeStatus(UserStatus.INACTIVE.getType())
-                    .totalIncome(0)
-                    .createdTime(new Date())
-                    .updatedTime(new Date())
-                    .build();
+//        AppUser user = AppUser.builder()
+//                .id(sid.nextShort())
+//                .mobile(mobile)
+//                .nickname("用户 " + DesensitizationUtils.mobileDesensitization(mobile))
+//                .face(defaultUserFace)
+//                .birthday(DateUtils.string2Date("1900-01-01"))
+//                .sex(Sex.secret.getType())
+//                .activeStatus(UserStatus.INACTIVE.getType())
+//                .totalIncome(0)
+//                .createdTime(new Date())
+//                .updatedTime(new Date())
+//                .build();
+        AppUser appUser = new AppUser();
+        appUser.setId(sid.nextShort());
+        appUser.setMobile(mobile);
+        appUser.setNickname("用户 " + DesensitizationUtils.mobileDesensitization(mobile));
+        appUser.setFace(defaultUserFace);
+        appUser.setBirthday(DateUtils.string2Date("1900-01-01"));
+        appUser.setSex(Sex.secret.getType());
+        appUser.setActiveStatus(UserStatus.INACTIVE.getType());
+        appUser.setTotalIncome(0);
+        appUser.setCreatedTime(new Date());
+        appUser.setUpdatedTime(new Date());
+        userMapper.insert(appUser);
 
-            userMapper.insert(user);
-
-            return user;
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return appUser;
     }
 
     /**
