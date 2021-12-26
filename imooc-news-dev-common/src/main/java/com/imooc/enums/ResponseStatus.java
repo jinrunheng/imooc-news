@@ -15,6 +15,7 @@ public enum ResponseStatus {
     SUCCESS(200, true, "操作成功"),
     FAILED(500, false, "操作失败"),
 
+    UN_LOGIN_ERROR(501, false, "请登录后再操作"),
     // 短信发送频率过快
     SMS_SEND_TOO_FAST_ERROR(505, false, "短信发送频率过快，请稍后再试"),
     // 验证码过期或不匹配
