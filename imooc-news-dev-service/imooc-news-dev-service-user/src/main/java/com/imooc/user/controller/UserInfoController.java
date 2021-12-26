@@ -1,6 +1,7 @@
 package com.imooc.user.controller;
 
 import com.imooc.api.controller.user.UserInfoControllerApi;
+import com.imooc.bo.UpdateUserInfoBO;
 import com.imooc.enums.ResponseStatus;
 import com.imooc.pojo.AppUser;
 import com.imooc.result.JsonResult;
@@ -9,9 +10,13 @@ import com.imooc.vo.UserAccountInfoVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author Dooby Kim
@@ -21,7 +26,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @Slf4j
-public class UserInfoController implements UserInfoControllerApi {
+public class UserInfoController extends BaseController implements UserInfoControllerApi {
 
     @Resource
     private UserService userService;
@@ -51,4 +56,27 @@ public class UserInfoController implements UserInfoControllerApi {
         BeanUtils.copyProperties(user, userAccountInfoVO);
         return new JsonResult(ResponseStatus.SUCCESS, userAccountInfoVO);
     }
+
+    /**
+     * 通过前端传递过来的 BO 修改用户信息
+     * 流程：
+     * 1. 判断 BindingResult 中是否绑定了错误的验证信息(@Valid 校验)，如果有则返回
+     * 2. 执行更新操作
+     *
+     * @param userInfoBO
+     * @param result
+     * @return
+     */
+    @Override
+    public JsonResult updateUserInfo(@Valid UpdateUserInfoBO userInfoBO, BindingResult result) {
+        // 判断 BindingResult 中是否绑定了错误的验证信息(@Valid 校验)，如果有则返回
+        if (result.hasErrors()) {
+            Map<String, String> errors = getErrors(result);
+            return new JsonResult(ResponseStatus.FAILED, errors);
+        }
+        // 执行更新操作
+
+        return JsonResult.ok();
+    }
+
 }

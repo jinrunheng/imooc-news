@@ -36,7 +36,7 @@ import java.util.UUID;
  */
 @RestController
 @Slf4j
-public class PassportController implements PassportControllerApi {
+public class PassportController extends BaseController implements PassportControllerApi {
 
     @Resource
     private SMSUtils smsUtils;
@@ -162,16 +162,5 @@ public class PassportController implements PassportControllerApi {
      */
     private String generateToken() {
         return UUID.randomUUID().toString();
-    }
-
-    /**
-     * 获取 BO 中的错误信息
-     *
-     * @param result
-     */
-    private Map<String, String> getErrors(BindingResult result) {
-        Map<String, String> map = new HashMap<>();
-        result.getFieldErrors().forEach(error -> map.put(error.getField(), error.getDefaultMessage()));
-        return map;
     }
 }
