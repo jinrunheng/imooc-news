@@ -41,7 +41,7 @@ Swagger2 是一个可以根据代码自动生成 API 文档的框架，用于生
     ```
 - 运行 MySQL 容器   
     ```bash
-    docker run --name imooc-news -e MYSQL_ROOT_PASSWORD=123 -e MYSQL_DATABASE=imooc-news-dev -p 3306:3306 -d mysql
+    docker run --name imooc-news -e MYSQL_ROOT_PASSWORD=123 -e MYSQL_DATABASE=imooc-news-dev -e TZ=Asia/Shanghai -p 3306:3306 -d mysql
     ```
 - 进入到项目的子目录 `mybatis-generator` 下 ，使用 Flyway 完成数据的初始化
     ```bash

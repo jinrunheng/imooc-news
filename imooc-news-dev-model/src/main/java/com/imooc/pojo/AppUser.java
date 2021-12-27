@@ -10,9 +10,9 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Table(name = "app_user")
-//@Builder
-//@NoArgsConstructor
-//@AllArgsConstructor
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AppUser {
     @Id
     private String id;
