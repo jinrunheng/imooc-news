@@ -13,12 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
-
-//导入可选配置类
-// 导入对应SMS模块的client
-// 导入要请求接口对应的request response类
 
 /**
  * @Author Dooby Kim
@@ -34,6 +28,9 @@ public class SMSUtils {
 
     public Map<String, String> sendSMS(String phone, String code) {
         try {
+            // 在这里面，我使用 System.getenv() 方法来获取腾讯云的 SECRET_ID 与 SECRET_KEY
+            // 因为本项目是一个开源项目，为了避免我的信息上传到 Github 上，所以我将密钥配置到环境变量中，然后使用了获取本地环境变量中的方式
+            // 我们也可以使用在配置文件中配置密钥，然后读取配置文件中的值的方式
             String secretId = System.getenv("TENCENT_SECRET_ID");
             String secretKey = System.getenv("TENCENT_SECRET_KEY");
             Credential credential = new Credential(secretId, secretKey);
