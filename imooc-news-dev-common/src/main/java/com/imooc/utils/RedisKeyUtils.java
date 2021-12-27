@@ -38,4 +38,14 @@ public class RedisKeyUtils {
         return "user:token:" + userId;
     }
 
+    /**
+     * Redis 中存储用户信息的 Key，用作缓存
+     *
+     * @param userId
+     * @return
+     */
+    public static String userInfoKey(String userId) {
+        return "user:info:" + userId;
+    }
+
 }
