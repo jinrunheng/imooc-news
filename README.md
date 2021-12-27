@@ -1,5 +1,14 @@
 ## imooc-news
 
+#### 项目使用技术栈
+
+- Spring Cloud(Hoxton.SR3)
+    - xxx
+    - xxx
+- Docker
+- Flyway
+- 腾讯云短信服务
+
 #### 运行前端项目
 
 - 下载 Tomcat：[下载地址](https://tomcat.apache.org/)；我使用的版本为 apache-tomcat-8.5.69
@@ -46,4 +55,21 @@ Swagger2 是一个可以根据代码自动生成 API 文档的框架，用于生
 - 进入到项目的子目录 `mybatis-generator` 下 ，使用 Flyway 完成数据的初始化
     ```bash
     mvn flyway:clean flyway:migrate
+    ```
+
+#### Bug Report
+
+- 2021-12-27
+    
+    后端传递给前端的日期少了一天，譬如后端传递的日期为：`1900-01-01`，而前端显示的日期则为 `1899-12-31`；解决这个 bug 需要注意的问题有两点。
+    第一个是在配置文件中需要设置：
+    ```yaml
+    spring:
+        jackson:
+            date-format: yyyy-MM-dd HH:mm:ss
+            time-zone: GMT+8
+    ```
+    第二个是需要注意 MySQL 数据库中的时区，我使用了 Docker 启动数据库，可以在启动 Docker 时，通过 -e 属性指定 time zone：
+    ```bash
+    -e TZ=Asia/Shanghai
     ```
