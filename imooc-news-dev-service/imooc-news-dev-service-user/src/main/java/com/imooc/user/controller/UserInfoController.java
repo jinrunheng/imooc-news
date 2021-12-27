@@ -7,6 +7,7 @@ import com.imooc.pojo.AppUser;
 import com.imooc.result.JsonResult;
 import com.imooc.user.service.UserService;
 import com.imooc.vo.UserAccountInfoVO;
+import com.imooc.vo.UserInfoVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -31,12 +32,44 @@ public class UserInfoController extends BaseController implements UserInfoContro
     private UserService userService;
 
     /**
-     * 通过 userId 获取用户账号基本信息
+     * 通过 userId 获取用户基本信息
+     * <p>
+     * 账号信息与用户基本信息不同在于，账号信息是用户账号详情页面所使用的；而一些其他的页面使用到的是用户的基本信息
+     * <p>
      * 流程：
      * 1. 判断 userId 是否为空，如果 userId 为空，则直接返回
      * 2. 根据 userId 获取用户
      * 3. 将用户封装成 VO（View Object）
-     * 3. 返回 VO 信息
+     * 4. 返回 VO 对象
+     * <p>
+     * 关于 VO/BO：
+     * <p>
+     * BO 为 Business Object，是前端传递给后端的；VO 为 View Object，是后端传递给前端的
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public JsonResult getUserInfo(String userId) {
+        if (StringUtils.isBlank(userId)) {
+            return new JsonResult(ResponseStatus.UN_LOGIN_ERROR);
+        }
+        AppUser user = userService.getUser(userId);
+        UserInfoVO userInfoVO = UserInfoVO.builder().build();
+        BeanUtils.copyProperties(user, userInfoVO);
+        return new JsonResult(ResponseStatus.SUCCESS, userInfoVO);
+    }
+
+    /**
+     * 通过 userId 获取用户账号信息
+     * <p>
+     * 账号信息与用户基本信息不同在于，账号信息是用户账号详情页面所使用的；而一些其他的页面使用到的是用户的基本信息
+     * <p>
+     * 流程：
+     * 1. 判断 userId 是否为空，如果 userId 为空，则直接返回
+     * 2. 根据 userId 获取用户
+     * 3. 将用户封装成 VO（View Object）
+     * 4. 返回 VO 对象
      * <p>
      * 关于 VO/BO：
      * <p>

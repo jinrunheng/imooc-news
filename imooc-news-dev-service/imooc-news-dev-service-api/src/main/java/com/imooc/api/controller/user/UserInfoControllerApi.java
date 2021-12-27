@@ -22,7 +22,11 @@ import javax.validation.Valid;
 @RequestMapping("user")
 public interface UserInfoControllerApi {
 
-    @ApiOperation(value = "获取用户账号基本信息", notes = "获取用户账号基本信息", httpMethod = "POST")
+    @ApiOperation(value = "获取用户基本信息", notes = "获取用户基本信息", httpMethod = "POST")
+    @PostMapping("/getUserInfo")
+    JsonResult getUserInfo(@RequestParam String userId);
+
+    @ApiOperation(value = "获取用户账号信息", notes = "获取用户账号信息", httpMethod = "POST")
     @PostMapping("/getAccountInfo")
     JsonResult getAccountInfo(@RequestParam String userId);
 

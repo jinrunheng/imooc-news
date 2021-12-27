@@ -7,6 +7,7 @@
     - xxx
 - Docker
 - Flyway
+- Swagger2
 - 腾讯云短信服务
 
 #### 运行前端项目
