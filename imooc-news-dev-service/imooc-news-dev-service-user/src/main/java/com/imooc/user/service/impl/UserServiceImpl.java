@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
      * 逻辑流程：
      * 1. 首先获取用户时，先从 Redis 缓存中获取
      * ----1. 如果获取到，则直接返回
-     * ----2. 获取不到，则从数据库查询
+     * ----2. 获取不到，则从数据库查询，并写入到缓存
      * 2. 返回用户信息
      *
      * @param userId
@@ -124,10 +124,17 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 更新用户信息（激活）
-     * 更新原则：先更新数据库，再更新 Redis 缓存
+     * 更新原则：**延迟双删**
      * 逻辑流程：
      * 1. 通过前端传递给后端的 BO 对象，后端进行更新（更新账号状态为激活，更新修改时间）
-     * 2. 更新 Redis 缓存
+     * 2. 为了保证数据库与 Redis 缓存的双写一致性，我们使用延迟双删策略：
+     * ----1. 删除 Redis 中的缓存
+     * ----2. 更新数据库，线程 sleep 一段时间
+     * --- 3. 线程苏醒，再次删除 Redis 中的缓存
+     * <p>
+     * 为什么要用到延迟双删，在项目的 README.md 中，我有详细地讲解：
+     * <p>
+     * 链接：https://github.com/jinrunheng/imooc-news
      *
      * @param userInfoBO
      */
@@ -138,6 +145,10 @@ public class UserServiceImpl implements UserService {
         newUserInfo.setUpdatedTime(new Date());
         newUserInfo.setActiveStatus(UserStatus.ACTIVE.getType());
 
+        // 删除 Redis 中的缓存
+        String userId = userInfoBO.getId();
+        String redisCacheKey = RedisKeyUtils.userInfoKey(userId);
+        redisOperator.delete(redisCacheKey);
         // 更新数据库
         // updateByXXX 与 updateByXXXSelective 的区别为：
         // updateByXXX 会将空的选项进行覆盖
@@ -147,12 +158,12 @@ public class UserServiceImpl implements UserService {
         if (result != 1) {
             MyCustomException.display(ResponseStatus.USER_UPDATE_ERROR);
         }
-
-        // 更新缓存
-        String userId = userInfoBO.getId();
-        String redisCacheKey = RedisKeyUtils.userInfoKey(userId);
-        AppUser user = userMapper.selectByPrimaryKey(userId);
-        String appUserJSONString = JSON.toJSONString(user);
-        redisOperator.set(redisCacheKey, appUserJSONString);
+        // 再次删除 Redis 中的缓存
+        try {
+            Thread.sleep(100);
+            redisOperator.delete(redisCacheKey);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
