@@ -10,6 +10,62 @@
 - Swagger2
 - 腾讯云短信服务
 
+### 如何在本地运行该项目
+#### 1. 将项目 clone 到本地，并刷新 Maven 依赖
+执行命令：
+```bash
+git clone git@github.com:jinrunheng/imooc-news.git
+```
+然后使用 IDE 打开，刷新 Maven 下载项目所需要到依赖
+
+#### 2. 运行前端项目
+
+- 下载 Tomcat：[下载地址](https://tomcat.apache.org/)；我使用的版本为 apache-tomcat-8.5.69
+- 解压安装包后，进入到 webapps 目录下，放入整个前端项目(拷贝项目根目录下的 imooc-news 目录)
+- 进入到 apache-tomcat 目录下的 bin 目录，并运行 startup 启动程序；使用命令：`./startup.sh`
+- 我们可以通过修改 config 目录下的 server.xml 来自定义 tomcat 访问的端口号；浏览器访问 `localhost:[port]`，默认端口号为 `8080`
+- 浏览器访问：`localhost:[port]/imooc-news/portal/index.html`
+
+#### 3. 使用 SwitchHosts 绑定虚拟域名
+
+- 下载 SwitchHosts：[下载地址](https://swh.app/zh/)
+- 通过本机内网 ip 地址绑定虚拟域名；MacOS 可以通过命令 `ifconfig` 查看内网 ip 地址
+- 配置
+    ```properties
+     192.168.43.15 www.imoocnews.com
+     192.168.43.15 writer.imoocnews.com
+     192.168.43.15 admin.imoocnews.com
+     
+     192.168.43.15 article.imoocnews.com
+     192.168.43.15 user.imoocnews.com
+     192.168.43.15 files.imoocnews.com 
+    ```
+  
+#### 4. 使用 Docker + Flyway 启动 MySQL 容器，并完成数据的初始化
+
+- 下载 MySQL 镜像
+    ```bash
+    docker pull mysql:8.0.16
+    ```
+- 运行 MySQL 容器   
+    ```bash
+    docker run --name imooc-news -e MYSQL_ROOT_PASSWORD=123 -e MYSQL_DATABASE=imooc-news-dev -e TZ=Asia/Shanghai -p 3306:3306 -d mysql
+    ```
+- 进入到项目的子目录 `mybatis-generator` 下 ，使用 Flyway 完成数据的初始化
+    ```bash
+    mvn flyway:clean flyway:migrate
+    ```
+
+#### 5. Swagger2 在线调试地址
+
+Swagger2 是一个可以根据代码自动生成 API 文档的框架，用于生成，描述，调用可视化 RESTful 风格的 Web 服务。
+
+在启用后端服务后，可以通过以下地址来进行文档查阅与在线调试：
+
+- dev-service-user
+
+    http://user.imoocnews.com:8003/doc.html
+    
 ### 项目亮点
 
 #### 1. 延迟双删实现 MySQL 和 Redis 的数据一致性
@@ -86,63 +142,15 @@
 
 缓存双删的优点是大大降低了数据库与缓存不一致的概率的发生，缺点为一定程度上降低了吞吐量。
 
-### 如何在本地运行该项目
-#### 1. 将项目 clone 到本地，并刷新 Maven 依赖
-执行命令：
-```bash
-git clone git@github.com:jinrunheng/imooc-news.git
-```
-然后使用 IDE 打开，刷新 Maven 下载项目所需要到依赖
+**拓展:分布式系统中的 CAP 理论**
 
-#### 2. 运行前端项目
+CAP 理论：
 
-- 下载 Tomcat：[下载地址](https://tomcat.apache.org/)；我使用的版本为 apache-tomcat-8.5.69
-- 解压安装包后，进入到 webapps 目录下，放入整个前端项目(拷贝项目根目录下的 imooc-news 目录)
-- 进入到 apache-tomcat 目录下的 bin 目录，并运行 startup 启动程序；使用命令：`./startup.sh`
-- 我们可以通过修改 config 目录下的 server.xml 来自定义 tomcat 访问的端口号；浏览器访问 `localhost:[port]`，默认端口号为 `8080`
-- 浏览器访问：`localhost:[port]/imooc-news/portal/index.html`
+- C(Consistency) 一致性
+- A(Availability) 可用性
+- P(Partition tolerance) 分区容错性
 
-#### 3. 使用 SwitchHosts 绑定虚拟域名
-
-- 下载 SwitchHosts：[下载地址](https://swh.app/zh/)
-- 通过本机内网 ip 地址绑定虚拟域名；MacOS 可以通过命令 `ifconfig` 查看内网 ip 地址
-- 配置
-    ```properties
-     192.168.43.15 www.imoocnews.com
-     192.168.43.15 writer.imoocnews.com
-     192.168.43.15 admin.imoocnews.com
-     
-     192.168.43.15 article.imoocnews.com
-     192.168.43.15 user.imoocnews.com
-     192.168.43.15 files.imoocnews.com 
-    ```
-  
-#### 4. 使用 Docker + Flyway 启动 MySQL 容器，并完成数据的初始化
-
-- 下载 MySQL 镜像
-    ```bash
-    docker pull mysql:8.0.16
-    ```
-- 运行 MySQL 容器   
-    ```bash
-    docker run --name imooc-news -e MYSQL_ROOT_PASSWORD=123 -e MYSQL_DATABASE=imooc-news-dev -e TZ=Asia/Shanghai -p 3306:3306 -d mysql
-    ```
-- 进入到项目的子目录 `mybatis-generator` 下 ，使用 Flyway 完成数据的初始化
-    ```bash
-    mvn flyway:clean flyway:migrate
-    ```
-
-#### 5. Swagger2 在线调试地址
-
-Swagger2 是一个可以根据代码自动生成 API 文档的框架，用于生成，描述，调用可视化 RESTful 风格的 Web 服务。
-
-在启用后端服务后，可以通过以下地址来进行文档查阅与在线调试：
-
-- dev-service-user
-
-    http://user.imoocnews.com:8003/doc.html
-    
-
+一个分布式系统最多只能同时满足这三项中的两项。
 
 #### Bug Report
 
