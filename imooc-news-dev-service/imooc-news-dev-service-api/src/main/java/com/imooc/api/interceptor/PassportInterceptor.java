@@ -16,7 +16,10 @@ import javax.servlet.http.HttpServletResponse;
  * @Author Dooby Kim
  * @Date 2021/12/23 3:16 下午
  * @Version 1.0
- * @Description 通行证服务相关拦截器
+ * @Description 通行证服务相关拦截器，对短信服务进行拦截。
+ * <p>
+ * 用户点击发送短信后，我们会生成一个 Key，存储到 Redis 中，并设置它的过期时间为 60 秒。
+ * 如果 Key 没有失效，用户再次点击发送短信，此时请求会被拦截。
  */
 public class PassportInterceptor implements HandlerInterceptor {
 
@@ -45,7 +48,7 @@ public class PassportInterceptor implements HandlerInterceptor {
     }
 
     /**
-     * 拦截起处理，在请求访问到 Controller 以后，渲染视图以前
+     * 拦截器处理，在请求访问到 Controller 以后，渲染视图以前
      *
      * @param request
      * @param response
@@ -59,7 +62,7 @@ public class PassportInterceptor implements HandlerInterceptor {
     }
 
     /**
-     * 拦截起处理，渲染视图以后
+     * 拦截器处理，渲染视图以后
      *
      * @param request
      * @param response
