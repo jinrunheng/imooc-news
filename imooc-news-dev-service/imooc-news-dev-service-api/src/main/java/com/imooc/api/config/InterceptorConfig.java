@@ -1,6 +1,7 @@
 package com.imooc.api.config;
 
 import com.imooc.api.interceptor.PassportInterceptor;
+import com.imooc.api.interceptor.UserStatusCheckInterceptor;
 import com.imooc.api.interceptor.UserTokenInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,11 @@ public class InterceptorConfig implements WebMvcConfigurer {
         return new UserTokenInterceptor();
     }
 
+    @Bean
+    public UserStatusCheckInterceptor userStatusCheckInterceptor() {
+        return new UserStatusCheckInterceptor();
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(passportInterceptor())
@@ -35,5 +41,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .addPathPatterns("/user/getAccountInfo")
                 .addPathPatterns("/user/updateUserInfo");
 
+//        registry.addInterceptor(userStatusCheckInterceptor())
+//                .addPathPatterns();
     }
 }
