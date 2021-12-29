@@ -9,6 +9,7 @@
 - Flyway
 - Swagger2
 - 腾讯云短信服务
+- FastDFS 分布式文件系统
 
 ### 如何在本地运行该项目
 #### 1. 将项目 clone 到本地，并刷新 Maven 依赖
@@ -152,7 +153,17 @@ CAP 理论：
 
 一个分布式系统最多只能同时满足这三项中的两项。
 
-#### Bug Report
+#### 2. FastDFS
+
+FastDFS 上传流程：
+
+[FastDFS 上传流程](https://tva1.sinaimg.cn/large/008i3skNgy1gxupz9v3a6j319y0u0jtt.jpg)
+
+FastDFS 下载流程：
+
+[FastDFS 下载流程](https://tva1.sinaimg.cn/large/008i3skNgy1gxurht1q3oj319f0u0q55.jpg)
+
+### Bug Report
 
 - 2021-12-27
     
