@@ -12,3 +12,12 @@ spring:
 ############################################################
 website:
   domain-name: imoocnews.com
+
+############################################################
+#
+# 在 dev 环境下，开启 MyBatis 的日志打印
+#
+############################################################
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

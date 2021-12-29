@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @Author Dooby Kim
  * @Date 2021/12/29 9:20 上午
  * @Version 1.0
- * @Description xxx
+ * @Description 通过 AOP 计算 service 层方法执行时间
  * <p>
  * AOP 通知：
  * 1. 前置通知（Before）：调用方法之前去执行 AOP
