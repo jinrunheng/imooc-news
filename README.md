@@ -157,11 +157,11 @@ CAP 理论：
 
 FastDFS 上传流程：
 
-[FastDFS 上传流程](https://tva1.sinaimg.cn/large/008i3skNgy1gxupz9v3a6j319y0u0jtt.jpg)
+![FastDFS 上传流程](https://tva1.sinaimg.cn/large/008i3skNgy1gxupz9v3a6j319y0u0jtt.jpg)
 
 FastDFS 下载流程：
 
-[FastDFS 下载流程](https://tva1.sinaimg.cn/large/008i3skNgy1gxurht1q3oj319f0u0q55.jpg)
+![FastDFS 下载流程](https://tva1.sinaimg.cn/large/008i3skNgy1gxurht1q3oj319f0u0q55.jpg)
 
 ### Bug Report
 
