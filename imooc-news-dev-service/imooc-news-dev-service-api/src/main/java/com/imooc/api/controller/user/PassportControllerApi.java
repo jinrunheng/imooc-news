@@ -31,4 +31,10 @@ public interface PassportControllerApi {
                        BindingResult result,
                        HttpServletRequest request,
                        HttpServletResponse response);
+
+    @ApiOperation(value = "退出登录", notes = "退出登录", httpMethod = "POST")
+    @PostMapping("/logout")
+    JsonResult logout(@RequestParam String userId,
+                      HttpServletRequest request,
+                      HttpServletResponse response);
 }

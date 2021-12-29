@@ -133,6 +133,26 @@ public class PassportController extends BaseController implements PassportContro
     }
 
     /**
+     * 退出登录
+     * <p>
+     * 执行逻辑：
+     * 1. 清除 Redis 中存储用户 Token 的 Key
+     * 2. 设置 Cookie(uid,utoken) 过期时间为 0 ，这样就相当于清除 Cookie
+     *
+     * @param userId
+     * @param request
+     * @param response
+     * @return
+     */
+    @Override
+    public JsonResult logout(String userId, HttpServletRequest request, HttpServletResponse response) {
+        redisOperator.delete(RedisKeyUtils.userTokenKey(userId));
+        setCookie(request, response, "uid", "", 0);
+        setCookie(request, response, "utoken", "", 0);
+        return JsonResult.ok();
+    }
+
+    /**
      * 设置 Cookie
      *
      * @param request
