@@ -1,8 +1,7 @@
 package com.imooc.user.controller;
 
-import com.imooc.user.Application;
+import com.imooc.user.UserApplication;
 import org.json.JSONObject;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @Date 2021/12/19 5:14 下午
  * @Version 1.0
  */
-@SpringBootTest(classes = Application.class)
+@SpringBootTest(classes = UserApplication.class)
 class HelloControllerTest {
 
     private MockMvc mockMvc;

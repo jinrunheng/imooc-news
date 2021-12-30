@@ -18,7 +18,7 @@ public class HelloController implements HelloControllerApi {
     private RedisOperator redisOperator;
 
     public JsonResult hello() {
-        log.info("Test Lombok");
+        log.info("Test Hello");
         return JsonResult.ok();
     }
 
