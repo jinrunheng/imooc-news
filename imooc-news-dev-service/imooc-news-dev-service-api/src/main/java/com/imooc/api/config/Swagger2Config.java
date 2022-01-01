@@ -30,15 +30,22 @@ public class Swagger2Config {
     public Docket createRestApi() {
 
         Predicate<RequestHandler> userPredicate = RequestHandlerSelectors.basePackage("com.imooc.user.controller");
+        Predicate<RequestHandler> filesPredicate = RequestHandlerSelectors.basePackage("com.imooc.files.controller");
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(Predicates.or(userPredicate))
+                .apis(Predicates.or(userPredicate,filesPredicate))
                 .paths(PathSelectors.any())
                 .build();
     }
 
+
+    /**
+     * 配置在线文档的基本信息
+     *
+     * @return
+     */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("imooc-news 接口 api")

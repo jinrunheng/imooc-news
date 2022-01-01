@@ -3,6 +3,7 @@ package com.imooc.files;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @Author Dooby Kim
@@ -15,6 +16,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * 否则会报错：Failed to configure a DataSource
  */
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@ComponentScan(basePackages = {"com.imooc"})
 public class FilesApplication {
     public static void main(String[] args) {
         SpringApplication.run(FilesApplication.class, args);
