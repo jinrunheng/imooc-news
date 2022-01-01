@@ -43,7 +43,6 @@
 
         <springfox-swagger2.version>2.4.0</springfox-swagger2.version>
         <swagger-bootstrap-ui.version>1.6</swagger-bootstrap-ui.version>
-        <fastdfs.version>1.27.2</fastdfs.version>
 
         <slf4j.version>1.7.21</slf4j.version>
         <joda-time.version>2.10.6</joda-time.version>
@@ -155,11 +154,6 @@
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
                 <version>${joda-time.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.tobato</groupId>
-                <artifactId>fastdfs-client</artifactId>
-                <version>${fastdfs.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
