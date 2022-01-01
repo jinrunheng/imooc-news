@@ -28,7 +28,13 @@ public enum ResponseStatus {
     // 用户信息更新失败
     USER_UPDATE_ERROR(508, false, "用户信息更新失败，请联系管理员"),
     // 用户账号未激活
-    USER_STATUS_INACTIVE_ERROR(509, false, "您的账号未激活，请前往[账号设置]进行激活");
+    USER_STATUS_INACTIVE_ERROR(509, false, "您的账号未激活，请前往[账号设置]进行激活"),
+
+    // 文件上传：文件不能为空
+    FILE_UPLOAD_EMPTY_ERROR(510, false, "文件不能为空，请选择一个文件"),
+    // 文件上传：文件格式错误
+    FILE_FORMAT_ERROR(512, false, "图片格式不支持，仅支持 PNG，JPG，JPEG");
+
     private Integer status;
     private Boolean success;
     private String msg;
