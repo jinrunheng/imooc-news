@@ -32,8 +32,12 @@ public enum ResponseStatus {
 
     // 文件上传：文件不能为空
     FILE_UPLOAD_EMPTY_ERROR(510, false, "文件不能为空，请选择一个文件"),
+    // 文件上传：文件上传失败
+    FILE_UPLOAD_FAIL_ERROR(511, false, "文件上传失败"),
     // 文件上传：文件格式错误
-    FILE_FORMAT_ERROR(512, false, "图片格式不支持，仅支持 PNG，JPG，JPEG");
+    FILE_FORMAT_ERROR(512, false, "图片格式不支持，仅支持 PNG，JPG，JPEG"),
+    // 文件上传：文件大小超出限制
+    FILE_SIZE_EXCEEDS_LIMIT_ERROR(513, false, "仅支持 512 KB 大小以下的文件");
 
     private Integer status;
     private Boolean success;

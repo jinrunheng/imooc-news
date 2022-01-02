@@ -1,7 +1,14 @@
 package com.imooc.files.service.impl;
 
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
 import com.imooc.files.service.FileUploadService;
+import com.imooc.resource.aliyun.AliyunResource;
+import com.imooc.utils.FileUploadUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
 
 /**
  * @Author Dooby Kim
@@ -11,8 +18,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class FileUploadServiceImpl implements FileUploadService {
+
+    @Resource
+    private FileUploadUtils fileUploadUtils;
+
+
     @Override
-    public String upload() {
-        return null;
+    public String upload(MultipartFile file, String userId, String suffix) {
+        return fileUploadUtils.upload(file, userId, suffix);
     }
 }

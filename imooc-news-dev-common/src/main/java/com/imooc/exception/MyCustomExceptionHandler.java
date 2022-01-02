@@ -1,10 +1,12 @@
 package com.imooc.exception;
 
+import com.imooc.enums.ResponseStatus;
 import com.imooc.result.JsonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 /**
  * @Author Dooby Kim
@@ -21,5 +23,12 @@ public class MyCustomExceptionHandler {
     public JsonResult returnMyCustomException(MyCustomException exception) {
         log.error(exception.getMessage());
         return new JsonResult(exception.getResponseStatus());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public JsonResult returnMaxUploadSizeExceededException(MaxUploadSizeExceededException exception) {
+        log.error(exception.getMessage());
+        return new JsonResult(ResponseStatus.FILE_SIZE_EXCEEDS_LIMIT_ERROR);
     }
 }
