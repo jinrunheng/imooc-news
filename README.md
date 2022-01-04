@@ -9,7 +9,8 @@
 - Flyway
 - Swagger2
 - 腾讯云短信服务
-- 阿里云 OSS
+- 阿里云 OSS 存储
+- ~~阿里云内容安全(服务未开通)~~
 
 ### 如何在本地运行该项目
 #### 1. 将项目 clone 到本地，并刷新 Maven 依赖
@@ -31,7 +32,7 @@ git clone git@github.com:jinrunheng/imooc-news.git
 
 - 下载 SwitchHosts：[下载地址](https://swh.app/zh/)
 - 通过本机内网 ip 地址绑定虚拟域名；MacOS 可以通过命令 `ifconfig` 查看内网 ip 地址
-- 配置
+- 配置示例：
     ```properties
      192.168.43.15 www.imoocnews.com
      192.168.43.15 writer.imoocnews.com
@@ -57,7 +58,11 @@ git clone git@github.com:jinrunheng/imooc-news.git
     mvn flyway:clean flyway:migrate
     ```
 
-#### 5. Swagger2 在线调试地址
+#### 5. 关于阿里云与腾讯云服务
+
+在本项目中，用到了腾讯云短信服务与阿里云 OSS 存储，实现这两项服务对应的工具类为 imooc-news-dev-common 模块下的 `/src/main/com/imooc/utils` 包中的 `SMSUtils` 与 `FileUploadUtils` ，需要用户自己去开通服务并进行配置。
+
+#### 6. Swagger2 在线调试地址
 
 Swagger2 是一个可以根据代码自动生成 API 文档的框架，用于生成，描述，调用可视化 RESTful 风格的 Web 服务。
 
@@ -146,17 +151,6 @@ Swagger2 是一个可以根据代码自动生成 API 文档的框架，用于生
 这样就有效避免了数据库与缓存不一致的情况。
 
 缓存双删的优点是大大降低了数据库与缓存不一致的概率的发生，缺点为一定程度上降低了吞吐量。
-
-**拓展:分布式系统中的 CAP 理论**
-
-CAP 理论：
-
-- C(Consistency) 一致性
-- A(Availability) 可用性
-- P(Partition tolerance) 分区容错性
-
-一个分布式系统最多只能同时满足这三项中的两项。
-
 
 ### Bug Report
 

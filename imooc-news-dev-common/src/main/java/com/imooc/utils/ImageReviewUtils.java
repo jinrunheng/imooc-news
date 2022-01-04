@@ -28,9 +28,12 @@ import java.util.UUID;
  * @Description 基于阿里云内容安全的图片审核工具类
  * <p>
  * 检测场景为鉴黄
+ * <p>
+ * 目前本人的阿里云内容安全服务暂未开通，用户上传图片审核功能取消
  */
 @Component
 @Slf4j
+@Deprecated
 public class ImageReviewUtils {
 
     @Resource
