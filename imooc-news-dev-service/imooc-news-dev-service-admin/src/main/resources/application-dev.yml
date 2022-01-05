@@ -1,9 +1,5 @@
 server:
-<<<<<<< HEAD
   port: 8005
-=======
-  port: 8003
->>>>>>> a1757bb749785b0c6dd0197a861723b6712f4cd8
 spring:
   redis:
     database: 0
