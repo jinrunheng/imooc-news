@@ -31,11 +31,12 @@ public class Swagger2Config {
 
         Predicate<RequestHandler> userPredicate = RequestHandlerSelectors.basePackage("com.imooc.user.controller");
         Predicate<RequestHandler> filesPredicate = RequestHandlerSelectors.basePackage("com.imooc.files.controller");
+        Predicate<RequestHandler> adminPredicate = RequestHandlerSelectors.basePackage("com.imooc.admin.controller");
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(Predicates.or(userPredicate,filesPredicate))
+                .apis(Predicates.or(userPredicate, filesPredicate, adminPredicate))
                 .paths(PathSelectors.any())
                 .build();
     }
