@@ -58,11 +58,21 @@ git clone git@github.com:jinrunheng/imooc-news.git
     mvn flyway:clean flyway:migrate
     ```
 
-#### 5. 关于阿里云与腾讯云服务
+#### 5. 启动 Redis
+
+你可以选择使用 Docker 容器，也可以在本地启动 Redis 服务，本项目使用的方式为本地启动 Redis，使用 Redis 版本为 6.0.9。
+
+进入到 Redis 目录下，执行命令：
+```bash
+redis-server
+```
+开启 Redis 服务。
+
+#### 6. 关于阿里云与腾讯云服务
 
 在本项目中，用到了腾讯云短信服务与阿里云 OSS 存储，实现这两项服务对应的工具类为 imooc-news-dev-common 模块下的 `/src/main/com/imooc/utils` 包中的 `SMSUtils` 与 `FileUploadUtils` ，需要用户自己去开通服务并进行配置。
 
-#### 6. Swagger2 在线调试地址
+#### 7. Swagger2 在线调试地址
 
 Swagger2 是一个可以根据代码自动生成 API 文档的框架，用于生成，描述，调用可视化 RESTful 风格的 Web 服务。
 
@@ -75,7 +85,11 @@ Swagger2 是一个可以根据代码自动生成 API 文档的框架，用于生
 - dev-service-files
 
     http://files.imoocnews.com:8004/doc.html
-    
+
+- dev-service-admin
+
+    http://admin.imoocnews.com:8005/doc.html
+        
 ### 项目亮点
 
 #### 1. 延迟双删实现 MySQL 和 Redis 的数据一致性
