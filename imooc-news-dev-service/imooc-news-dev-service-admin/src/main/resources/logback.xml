@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <!-- 指定日志文件的存储地址，使用绝对路径 -->
-<<<<<<< HEAD
     <property name="LOG_HOME" value="/Users/macbook/Desktop/data/log/imooc-news-dev/service-admin"/>
-=======
-    <property name="LOG_HOME" value="/Users/macbook/Desktop/data/log/imooc-news-dev/service-user"/>
->>>>>>> a1757bb749785b0c6dd0197a861723b6712f4cd8
-
     <!-- 控制台的输出设置 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -22,11 +17,7 @@
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 日志文件输出的文件名 -->
-<<<<<<< HEAD
             <fileNamePattern>${LOG_HOME}/service-admin.%d{yyyy-MM-dd}.log</fileNamePattern>
-=======
-            <fileNamePattern>${LOG_HOME}/service-user.%d{yyyy-MM-dd}.log</fileNamePattern>
->>>>>>> a1757bb749785b0c6dd0197a861723b6712f4cd8
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
