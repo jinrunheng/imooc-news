@@ -11,6 +11,7 @@
 
     <artifactId>imooc-news-dev-service-admin</artifactId>
 
+<<<<<<< HEAD
     <dependencies>
         <dependency>
             <groupId>com.imooc</groupId>
@@ -18,5 +19,7 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
+=======
+>>>>>>> a1757bb749785b0c6dd0197a861723b6712f4cd8
 
 </project>
