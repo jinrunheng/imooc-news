@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="MysqlContext" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!-- 通用 mapper 所在目录 -->
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="com.imooc.mapper.my.MyMapper"/>
+        </plugin>
+
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/imooc-news-dev"
+                        userId="root"
+                        password="123">
+        </jdbcConnection>
+
+        <!-- 生成对应的 pojo 所在目录 -->
+        <javaModelGenerator targetPackage="com.imooc.pojo" targetProject="mybatis-generator/src/main/java"/>
+
+        <!-- 生成对应的 mapper 所在目录 -->
+        <sqlMapGenerator targetPackage="mapper.admin" targetProject="mybatis-generator/src/main/resources"/>
+
+        <!-- 生成对应的 mapper 接口所在目录 -->
+        <javaClientGenerator targetPackage="com.imooc.mapper.admin" targetProject="mybatis-generator/src/main/java"
+                             type="XMLMAPPER"/>
+
+        <!-- 数据库表 -->
+        <table tableName="admin_user"></table>
+
+    </context>
+</generatorConfiguration>

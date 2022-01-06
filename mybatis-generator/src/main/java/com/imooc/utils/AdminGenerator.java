@@ -12,16 +12,16 @@ import java.util.List;
 
 /**
  * @Author Dooby Kim
- * @Date 2021/12/19 8:43 下午
+ * @Date 2022/1/6 11:37 下午
  * @Version 1.0
  */
 @Slf4j
-public class UserGenerator {
+public class AdminGenerator {
 
     private void generator() throws Exception {
 
         List<String> warnings = new ArrayList<>();
-        File configFile = new File("mybatis-generator" + File.separator + "generatorConfig-user.xml");
+        File configFile = new File("mybatis-generator" + File.separator + "generatorConfig-admin.xml");
         ConfigurationParser cp = new ConfigurationParser(warnings);
         Configuration config = cp.parseConfiguration(configFile);
         DefaultShellCallback callback = new DefaultShellCallback(true);
@@ -31,7 +31,7 @@ public class UserGenerator {
 
     public static void main(String[] args) {
         try {
-            new UserGenerator().generator();
+            new AdminGenerator().generator();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
