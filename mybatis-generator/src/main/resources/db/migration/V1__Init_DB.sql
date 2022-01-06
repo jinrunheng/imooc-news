@@ -24,16 +24,16 @@ CREATE TABLE `admin_user`
 -- ----------------------------
 BEGIN;
 INSERT INTO `admin_user`
-VALUES ('1001', 'admin', '$2a$10$c8Eh/a7NAwtOLOs/S4Kd9ufGaTFzBszfOuaRDhc09nl59HQWBNjpG', NULL, 'admin',
+VALUES ('1001', 'admin', '$2a$10$zYwY2oCkpCCYZ5iNC8qmr.mZV5DpXtNfj.0oGGIMGB/qBBiQpAQD6', NULL, 'admin',
         '2020-07-09 11:33:39', '2020-07-09 11:33:44');
 INSERT INTO `admin_user`
-VALUES ('2007108YW09A83XP', 'admin123', '$2a$10$suFDBoqVShfhZ/aX8DFmf.PT.CkkI2scdLhFIlnL8DsL5G1Q/kxAK', NULL, 'admin',
+VALUES ('2007108YW09A83XP', 'admin123', '$2a$10$b0dCewVODv8eREg14.yzFeuy1iSQ3/UacnoFNGdJle6hvhftvfc.S', NULL, 'admin',
         '2020-07-10 12:33:12', '2020-07-10 12:33:12');
 INSERT INTO `admin_user`
-VALUES ('2007108ZNW11MNC0', '123', '$2a$10$6X3FvX7KaNposqpR8T.SJetHste4Yvz4limgIENrrgzKWo95.WGlC', NULL, '4213',
+VALUES ('2007108ZNW11MNC0', '123', '$2a$10$J.cy6vWC6tHQhbcpZfWriOqQ.O6d/xPISrpWUVkCroZXVcWjXtURu', NULL, '4213',
         '2020-07-10 12:35:45', '2020-07-10 12:35:45');
 INSERT INTO `admin_user`
-VALUES ('200710A9FA5W54ZC', 'test123', '$2a$10$fKu4V3V77V9XoAdDSjFZL.pU/CxlEa8ZtFQG5sqpEfD0WwruybLj6', NULL, 'test',
+VALUES ('200710A9FA5W54ZC', 'test123', '$2a$10$il.n4GvSybVfr/x8eP4Dd.qI3u3iABFT5YScNYWf34ahc1qyH/PdO', NULL, 'test',
         '2020-07-10 14:29:15', '2020-07-10 14:29:15');
 INSERT INTO `admin_user`
 VALUES ('20071489GSMHCZ2W', 'admin456', NULL, '5f0d295ce1d10e485d7f2d62', 'admin', '2020-07-14 11:41:16',
