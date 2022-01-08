@@ -106,11 +106,11 @@
                 <version>${jackson.version}</version>
             </dependency>
             <!-- okhttp3 -->
-            <dependency>
-                <groupId>com.squareup.okhttp3</groupId>
-                <artifactId>okhttp</artifactId>
-                <version>${okhttp.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.squareup.okhttp3</groupId>-->
+<!--                <artifactId>okhttp</artifactId>-->
+<!--                <version>${okhttp.version}</version>-->
+<!--            </dependency>-->
             <!-- apache 工具类 -->
             <dependency>
                 <groupId>commons-codec</groupId>

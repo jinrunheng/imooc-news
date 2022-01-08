@@ -3,6 +3,8 @@ package com.imooc.admin.service.impl;
 import com.imooc.admin.mapper.AdminUserMapper;
 import com.imooc.admin.service.AdminUserService;
 import com.imooc.pojo.AdminUser;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
@@ -12,6 +14,8 @@ import javax.annotation.Resource;
  * @Date 2022/1/7 12:19 上午
  * @Version 1.0
  */
+@Service
+@Slf4j
 public class AdminUserServiceImpl implements AdminUserService {
 
     @Resource
@@ -22,7 +26,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
         Example adminExample = new Example(AdminUser.class);
         Example.Criteria adminCriteria = adminExample.createCriteria();
-        adminCriteria.andEqualTo("username",username);
+        adminCriteria.andEqualTo("username", username);
         return adminUserMapper.selectOneByExample(adminExample);
     }
 }

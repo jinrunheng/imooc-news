@@ -48,4 +48,13 @@ public class RedisKeyUtils {
         return "user:info:" + userId;
     }
 
+    /**
+     * Redis 中存储 admin 用户 Token 的 Key
+     *
+     * @param adminId
+     * @return
+     */
+    public static String adminTokenKey(String adminId) {
+        return "admin:token:" + adminId;
+    }
 }

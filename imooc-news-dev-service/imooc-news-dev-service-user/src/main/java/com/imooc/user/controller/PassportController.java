@@ -7,10 +7,7 @@ import com.imooc.enums.UserStatus;
 import com.imooc.pojo.AppUser;
 import com.imooc.result.JsonResult;
 import com.imooc.user.service.UserService;
-import com.imooc.utils.IPUtils;
-import com.imooc.utils.RedisKeyUtils;
-import com.imooc.utils.RedisOperator;
-import com.imooc.utils.SMSUtils;
+import com.imooc.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -114,13 +111,13 @@ public class PassportController extends BaseController implements PassportContro
         }
 
         // 生成用户 Token，保存到分布式 Redis 集群中（分布式会话）
-        String utoken = generateToken();
+        String utoken = TokenUtils.generateToken();
         redisOperator.set(RedisKeyUtils.userTokenKey(appUser.getId()), utoken);
         // 保存用户 id 与 token 到 Cookie 中
         try {
             // 设置 Cookie 保存时间为一个月
-            setCookie(request, response, "utoken", URLEncoder.encode(utoken, "utf-8"), 30 * 24 * 60 * 60);
-            setCookie(request, response, "uid", URLEncoder.encode(appUser.getId(), "utf-8"), 30 * 24 * 60 * 60);
+            CookieUtils.setCookie(request, response, domainName, "utoken", URLEncoder.encode(utoken, "utf-8"), 30 * 24 * 60 * 60);
+            CookieUtils.setCookie(request, response, domainName, "uid", URLEncoder.encode(appUser.getId(), "utf-8"), 30 * 24 * 60 * 60);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -147,40 +144,8 @@ public class PassportController extends BaseController implements PassportContro
     @Override
     public JsonResult logout(String userId, HttpServletRequest request, HttpServletResponse response) {
         redisOperator.delete(RedisKeyUtils.userTokenKey(userId));
-        setCookie(request, response, "uid", "", 0);
-        setCookie(request, response, "utoken", "", 0);
+        CookieUtils.setCookie(request, response, domainName, "uid", "", 0);
+        CookieUtils.setCookie(request, response, domainName, "utoken", "", 0);
         return JsonResult.ok();
-    }
-
-    /**
-     * 设置 Cookie
-     *
-     * @param request
-     * @param response
-     * @param cookieName
-     * @param cookieValue
-     * @param maxAge
-     */
-    private void setCookie(HttpServletRequest request,
-                           HttpServletResponse response,
-                           String cookieName,
-                           String cookieValue,
-                           Integer maxAge) {
-
-        Cookie cookie = new Cookie(cookieName, cookieValue);
-
-        cookie.setDomain(domainName);
-        cookie.setMaxAge(maxAge);
-        cookie.setPath("/");
-        response.addCookie(cookie);
-    }
-
-    /**
-     * 生成用户 Token
-     *
-     * @return
-     */
-    private String generateToken() {
-        return UUID.randomUUID().toString();
     }
 }
