@@ -187,4 +187,8 @@ Swagger2 是一个可以根据代码自动生成 API 文档的框架，用于生
      创建文件服务模块时，运行启动类 FilesApplication 报错；报错内容为：Failed to configure a DataSource  
      原因在于：项目中，我们已经引入了数据源驱动的依赖（common 模块下），files 模块继承了 common 模块，但是 files 模块并没有使用数据源
      我们可以在 `@SpringBootApplication` 注解中使用 `exclude`参数排除掉 `XXXAutoConfiguration` 自动装配的类，只需要使用 exclude 将 `DataSourceAutoConfiguration.class` 这个数据源自动装配类排除即可。
-  
+ 
+ - 2022-01-09
+    
+    完成 `admin` 模块的用户名密码登录功能后，运行 `AdminApplication` 报错；报错内容为：Okhttp3 java.lang.NoSuchFieldError：Companion
+    目前怀疑是项目引入的 okhttp3 与其他依赖中依赖的 okhttp3 有冲突，取消了项目 okhttp3 的依赖，运行正常。
