@@ -43,6 +43,10 @@ public enum ResponseStatus {
     ADMIN_USERNAME_NULL_ERROR(561, false, "管理员登录名不能为空"),
     // admin：管理员登录名已存在
     ADMIN_USERNAME_ALREADY_EXIST_ERROR(562, false, "管理员登录名已存在"),
+    // admin：两次输入密码不一致
+    ADMIN_CONFIRM_PASSWORD_NOT_MATCH_ERROR(564, false, "两次密码输入不一致"),
+    // admin：添加管理员失败
+    ADMIN_CREATE_ERROR(565, false, "添加管理员失败"),
     // admin：密码不能为空
     ADMIN_PASSWORD_NULL_ERROR(566, false, "密码不能为空"),
     // admin：管理员不存在或密码错误

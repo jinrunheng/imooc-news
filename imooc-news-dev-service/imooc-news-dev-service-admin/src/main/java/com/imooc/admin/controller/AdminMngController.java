@@ -2,6 +2,7 @@ package com.imooc.admin.controller;
 
 import com.imooc.admin.service.AdminUserService;
 import com.imooc.api.controller.admin.AdminMngControllerApi;
+import com.imooc.bo.AddNewAdminBO;
 import com.imooc.bo.AdminLoginBO;
 import com.imooc.enums.ResponseStatus;
 import com.imooc.exception.MyCustomException;
@@ -96,6 +97,51 @@ public class AdminMngController implements AdminMngControllerApi {
     @Override
     public JsonResult adminIsExist(String username) {
         checkAdminExist(username);
+        return JsonResult.ok();
+    }
+
+    /**
+     * 创建新的 Admin 用户
+     * <p>
+     * 逻辑流程：
+     * <p>
+     * 1. 验证 BO 中的用户名是否为空，如果为空，则直接返回
+     * 2. 判断 img64(base64) 是否为空，如果不为空，则代表人脸入库(人脸入库可以不用输入密码)；否则需要用户输入密码以及确认密码
+     * 3. 如果用户密码不为空，则验证两次输入密码是否一致
+     * 4. 执行 checkAdminExist 方法的逻辑，判断 admin 是否已经存在，如果存在则抛出错误
+     * 5. 调用 adminUserService 存入 admin 信息
+     *
+     * @param addNewAdminBO
+     * @param request
+     * @param response
+     * @return
+     */
+    @Override
+    public JsonResult addNewAdmin(AddNewAdminBO addNewAdminBO, HttpServletRequest request, HttpServletResponse response) {
+
+        String adminUsername = addNewAdminBO.getUsername();
+
+        if (StringUtils.isBlank(adminUsername)) {
+            return new JsonResult(ResponseStatus.ADMIN_USERNAME_NULL_ERROR);
+        }
+
+        if (StringUtils.isBlank(addNewAdminBO.getImg64())) {
+            if (StringUtils.isBlank(addNewAdminBO.getPassword())
+                    || StringUtils.isBlank(addNewAdminBO.getConfirmPassword())) {
+                return new JsonResult(ResponseStatus.ADMIN_PASSWORD_NULL_ERROR);
+            }
+        }
+
+        if (StringUtils.isNotBlank(addNewAdminBO.getPassword())) {
+            if (!addNewAdminBO.getPassword().equals(addNewAdminBO.getConfirmPassword())) {
+                return new JsonResult(ResponseStatus.ADMIN_CONFIRM_PASSWORD_NOT_MATCH_ERROR);
+            }
+        }
+
+        checkAdminExist(adminUsername);
+
+        adminUserService.createAdminUser(addNewAdminBO);
+
         return JsonResult.ok();
     }
 

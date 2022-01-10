@@ -1,5 +1,6 @@
 package com.imooc.admin.service;
 
+import com.imooc.bo.AddNewAdminBO;
 import com.imooc.pojo.AdminUser;
 
 /**
@@ -16,4 +17,11 @@ public interface AdminUserService {
      * @return
      */
     AdminUser queryAdminByUsername(String username);
+
+    /**
+     * 创建新的 Admin 用户
+     *
+     * @param adminBO
+     */
+    void createAdminUser(AddNewAdminBO adminBO);
 }

@@ -1,5 +1,6 @@
 package com.imooc.api.controller.admin;
 
+import com.imooc.bo.AddNewAdminBO;
 import com.imooc.bo.AdminLoginBO;
 import com.imooc.result.JsonResult;
 import io.swagger.annotations.Api;
@@ -29,4 +30,7 @@ public interface AdminMngControllerApi {
     @PostMapping("/adminIsExist")
     JsonResult adminIsExist(@RequestParam String username);
 
+    @ApiOperation(value = "创建 admin 用户", notes = "创建 admin 用户", httpMethod = "POST")
+    @PostMapping("/addNewAdmin")
+    JsonResult addNewAdmin(@RequestBody AddNewAdminBO addNewAdminBO, HttpServletRequest request, HttpServletResponse response);
 }
