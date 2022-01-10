@@ -88,6 +88,27 @@ public class AdminMngController implements AdminMngControllerApi {
     }
 
     /**
+     * 对应到前端的键盘输入事件，校验 admin 用户名是否存在
+     *
+     * @param username
+     * @return
+     */
+    @Override
+    public JsonResult adminIsExist(String username) {
+        checkAdminExist(username);
+        return JsonResult.ok();
+    }
+
+    private void checkAdminExist(String username) {
+        AdminUser adminUser = adminUserService.queryAdminByUsername(username);
+
+        if (adminUser != null) {
+            MyCustomException.display(ResponseStatus.ADMIN_USERNAME_ALREADY_EXIST_ERROR);
+        }
+    }
+
+
+    /**
      * 用于 admin 用户登录后，token 的设置
      * <p>
      * ---- 1. 保存 token 到 redis 中

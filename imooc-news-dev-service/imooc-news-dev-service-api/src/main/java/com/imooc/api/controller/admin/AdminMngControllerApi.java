@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,5 +24,9 @@ public interface AdminMngControllerApi {
     @ApiOperation(value = "admin 用户名密码登录", notes = "admin 用户名密码登录", httpMethod = "POST")
     @PostMapping("/adminLogin")
     JsonResult adminLogin(@RequestBody AdminLoginBO adminLoginBO, HttpServletRequest request, HttpServletResponse response);
+
+    @ApiOperation(value = "对应到前端的键盘事件，查询 admin 用户名是否存在", notes = "对应到前端的键盘事件，查询 admin 用户名是否存在", httpMethod = "POST")
+    @PostMapping("/adminIsExist")
+    JsonResult adminIsExist(@RequestParam String username);
 
 }
