@@ -2,6 +2,7 @@ package com.imooc.admin.service;
 
 import com.imooc.bo.AddNewAdminBO;
 import com.imooc.pojo.AdminUser;
+import com.imooc.utils.PageUtils;
 
 /**
  * @Author Dooby Kim
@@ -28,8 +29,8 @@ public interface AdminUserService {
     /**
      * 分页查询 Admin 用户列表
      *
-     * @param pageIndex
+     * @param page
      * @param pageSize
      */
-    void queryAdminList(Integer pageIndex, Integer pageSize);
+    PageUtils.PageInfoVO queryAdminList(Integer page, Integer pageSize);
 }

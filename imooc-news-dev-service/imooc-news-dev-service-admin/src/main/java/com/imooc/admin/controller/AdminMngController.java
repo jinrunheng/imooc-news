@@ -8,10 +8,7 @@ import com.imooc.enums.ResponseStatus;
 import com.imooc.exception.MyCustomException;
 import com.imooc.pojo.AdminUser;
 import com.imooc.result.JsonResult;
-import com.imooc.utils.CookieUtils;
-import com.imooc.utils.RedisKeyUtils;
-import com.imooc.utils.RedisOperator;
-import com.imooc.utils.TokenUtils;
+import com.imooc.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -150,26 +147,27 @@ public class AdminMngController implements AdminMngControllerApi {
      * <p>
      * 逻辑流程：
      * <p>
-     * 1. 首先判断传入的 pageIndex 与 pageSize 是否为空，如果为空，则赋默认值（从第 1 页查询，查询条目为每页 10 条）
+     * 1. 首先判断传入的 page 与 pageSize 是否为空，如果为空，则赋默认值（从第 1 页查询，查询条目为每页 10 条）
+     * 2. 使用分页组件进行查询，并返回封装好的 PageInfoVO
      *
-     * @param pageIndex
+     * @param page
      * @param pageSize
      * @return
      */
     @Override
-    public JsonResult getAdminList(Integer pageIndex, Integer pageSize) {
-        if (pageIndex == null) {
-            pageIndex = DEFAULT_PAGE_INDEX;
+    public JsonResult getAdminList(Integer page, Integer pageSize) {
+        if (page == null) {
+            page = DEFAULT_PAGE_INDEX;
         }
 
         if (pageSize == null) {
             pageSize = DEFAULT_PAGE_SIZE;
         }
 
-        adminUserService.queryAdminList(pageIndex, pageSize);
+        PageUtils.PageInfoVO pageInfoVO = adminUserService.queryAdminList(page, pageSize);
 
-        // TODO: 待完成全部功能
-        return JsonResult.ok();
+
+        return new JsonResult(ResponseStatus.SUCCESS, pageInfoVO);
     }
 
     private void checkAdminExist(String username) {

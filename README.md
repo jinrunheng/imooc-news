@@ -51,8 +51,7 @@ git clone git@github.com:jinrunheng/imooc-news.git
     ```
 - 运行 MySQL 容器   
     ```bash
-    docker run --name imooc-news -e MYSQL_ROOT_PASSWORD=123 -e MYSQL_DATABASE=imooc-news-dev -e TZ=Asia/Shanghai -p 3306:3306 -d mysql
-    ```
+cd    ```
 - 进入到项目的子目录 `mybatis-generator` 下 ，使用 Flyway 完成数据的初始化
     ```bash
     mvn flyway:clean flyway:migrate

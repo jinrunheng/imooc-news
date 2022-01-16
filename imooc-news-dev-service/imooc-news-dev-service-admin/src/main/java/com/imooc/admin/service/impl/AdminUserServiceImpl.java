@@ -7,6 +7,7 @@ import com.imooc.bo.AddNewAdminBO;
 import com.imooc.enums.ResponseStatus;
 import com.imooc.exception.MyCustomException;
 import com.imooc.pojo.AdminUser;
+import com.imooc.utils.PageUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
@@ -86,14 +87,13 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public void queryAdminList(Integer pageIndex, Integer pageSize) {
+    public PageUtils.PageInfoVO queryAdminList(Integer page, Integer pageSize) {
         Example adminExample = new Example(AdminUser.class);
         adminExample.orderBy("createdTime").desc();
 
-        PageHelper.startPage(pageIndex, pageSize);
+        PageHelper.startPage(page, pageSize);
         List<AdminUser> adminUsers = adminUserMapper.selectByExample(adminExample);
 
-        // test
-        System.out.println(adminUsers);
+        return PageUtils.setPageInfo(adminUsers, page);
     }
 }

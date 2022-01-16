@@ -38,6 +38,6 @@ public interface AdminMngControllerApi {
     @ApiOperation(value = "查询 admin 用户列表", notes = "查询 admin 用户列表", httpMethod = "POST")
     @PostMapping("/getAdminList")
     JsonResult getAdminList(
-            @ApiParam(name = "pageIndex", value = "查询第几页") @RequestParam Integer pageIndex,
-            @ApiParam(name = "pageSize", value = "分页查询每一页显示条数") @RequestParam Integer pageSize);
+            @ApiParam(name = "pageIndex", value = "查询第几页", required = false) @RequestParam Integer pageIndex,
+            @ApiParam(name = "pageSize", value = "分页查询每一页显示条数", required = false) @RequestParam Integer pageSize);
 }
