@@ -1,5 +1,6 @@
 package com.imooc.admin.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.imooc.admin.mapper.AdminUserMapper;
 import com.imooc.admin.service.AdminUserService;
 import com.imooc.bo.AddNewAdminBO;
@@ -16,6 +17,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author Dooby Kim
@@ -81,5 +83,17 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (result != 1) {
             MyCustomException.display(ResponseStatus.ADMIN_CREATE_ERROR);
         }
+    }
+
+    @Override
+    public void queryAdminList(Integer pageIndex, Integer pageSize) {
+        Example adminExample = new Example(AdminUser.class);
+        adminExample.orderBy("createdTime").desc();
+
+        PageHelper.startPage(pageIndex, pageSize);
+        List<AdminUser> adminUsers = adminUserMapper.selectByExample(adminExample);
+
+        // test
+        System.out.println(adminUsers);
     }
 }

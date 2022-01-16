@@ -5,6 +5,7 @@ import com.imooc.bo.AdminLoginBO;
 import com.imooc.result.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,4 +34,10 @@ public interface AdminMngControllerApi {
     @ApiOperation(value = "创建 admin 用户", notes = "创建 admin 用户", httpMethod = "POST")
     @PostMapping("/addNewAdmin")
     JsonResult addNewAdmin(@RequestBody AddNewAdminBO addNewAdminBO, HttpServletRequest request, HttpServletResponse response);
+
+    @ApiOperation(value = "查询 admin 用户列表", notes = "查询 admin 用户列表", httpMethod = "POST")
+    @PostMapping("/getAdminList")
+    JsonResult getAdminList(
+            @ApiParam(name = "pageIndex", value = "查询第几页") @RequestParam Integer pageIndex,
+            @ApiParam(name = "pageSize", value = "分页查询每一页显示条数") @RequestParam Integer pageSize);
 }

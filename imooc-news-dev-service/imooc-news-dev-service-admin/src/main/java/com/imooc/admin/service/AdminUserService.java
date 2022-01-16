@@ -24,4 +24,12 @@ public interface AdminUserService {
      * @param adminBO
      */
     void createAdminUser(AddNewAdminBO adminBO);
+
+    /**
+     * 分页查询 Admin 用户列表
+     *
+     * @param pageIndex
+     * @param pageSize
+     */
+    void queryAdminList(Integer pageIndex, Integer pageSize);
 }

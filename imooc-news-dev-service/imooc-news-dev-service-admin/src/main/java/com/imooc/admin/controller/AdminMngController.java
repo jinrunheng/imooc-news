@@ -12,8 +12,6 @@ import com.imooc.utils.CookieUtils;
 import com.imooc.utils.RedisKeyUtils;
 import com.imooc.utils.RedisOperator;
 import com.imooc.utils.TokenUtils;
-import com.tencentcloudapi.hcm.v20181106.models.EvaluationRequest;
-import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +19,6 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,6 +31,9 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @RestController
 public class AdminMngController implements AdminMngControllerApi {
+
+    private static final Integer DEFAULT_PAGE_INDEX = 1;
+    private static final Integer DEFAULT_PAGE_SIZE = 10;
 
     @Resource
     private AdminUserService adminUserService;
@@ -142,6 +142,33 @@ public class AdminMngController implements AdminMngControllerApi {
 
         adminUserService.createAdminUser(addNewAdminBO);
 
+        return JsonResult.ok();
+    }
+
+    /**
+     * 获取 Admin 用户列表
+     * <p>
+     * 逻辑流程：
+     * <p>
+     * 1. 首先判断传入的 pageIndex 与 pageSize 是否为空，如果为空，则赋默认值（从第 1 页查询，查询条目为每页 10 条）
+     *
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public JsonResult getAdminList(Integer pageIndex, Integer pageSize) {
+        if (pageIndex == null) {
+            pageIndex = DEFAULT_PAGE_INDEX;
+        }
+
+        if (pageSize == null) {
+            pageSize = DEFAULT_PAGE_SIZE;
+        }
+
+        adminUserService.queryAdminList(pageIndex, pageSize);
+
+        // TODO: 待完成全部功能
         return JsonResult.ok();
     }
 
