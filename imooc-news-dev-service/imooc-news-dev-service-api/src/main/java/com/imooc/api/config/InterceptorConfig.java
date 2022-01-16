@@ -49,7 +49,9 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .addPathPatterns("/fs/uploadFace");
 
         registry.addInterceptor(adminTokenInterceptor())
-                .addPathPatterns("/adminMng/adminIsExist");
+                .addPathPatterns("/adminMng/adminIsExist")
+                .addPathPatterns("/adminMng/addNewAdmin")
+                .addPathPatterns("/adminMng/getAdminList");
 
 //        registry.addInterceptor(userStatusCheckInterceptor())
 //                .addPathPatterns();
