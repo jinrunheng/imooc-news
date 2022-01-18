@@ -40,4 +40,8 @@ public interface AdminMngControllerApi {
     JsonResult getAdminList(
             @ApiParam(name = "pageIndex", value = "查询第几页", required = false) @RequestParam Integer pageIndex,
             @ApiParam(name = "pageSize", value = "分页查询每一页显示条数", required = false) @RequestParam Integer pageSize);
+
+    @ApiOperation(value = "admin 退出登录", notes = "admin 退出登录", httpMethod = "POST")
+    @PostMapping("/adminLogout")
+    JsonResult adminLogout(@RequestParam String adminId, HttpServletRequest request, HttpServletResponse response);
 }

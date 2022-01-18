@@ -170,6 +170,27 @@ public class AdminMngController implements AdminMngControllerApi {
         return new JsonResult(ResponseStatus.SUCCESS, pageInfoVO);
     }
 
+    /**
+     * admin 用户退出登录功能
+     * <p>
+     * 逻辑流程：
+     * 1. 删除 Redis 中的 admin token
+     * 2. 删除 Cookie，包括 aid,aname,atoken
+     *
+     * @param adminId
+     * @param request
+     * @param response
+     * @return
+     */
+    @Override
+    public JsonResult adminLogout(String adminId, HttpServletRequest request, HttpServletResponse response) {
+        redisOperator.delete(RedisKeyUtils.adminTokenKey(adminId));
+        CookieUtils.deleteCookie(request, response, "aid");
+        CookieUtils.deleteCookie(request, response, "aname");
+        CookieUtils.deleteCookie(request, response, "atoken");
+        return JsonResult.ok();
+    }
+
     private void checkAdminExist(String username) {
         AdminUser adminUser = adminUserService.queryAdminByUsername(username);
 
