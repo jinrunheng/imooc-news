@@ -11,7 +11,8 @@
 - 腾讯云短信服务
 - 阿里云 OSS 存储
 - ~~阿里云内容安全(服务未开通)~~
-- 人脸识别登录 
+- 人脸识别登录
+- MongoDB 
 
 ### 如何在本地运行该项目
 #### 1. 将项目 clone 到本地，并刷新 Maven 依赖
@@ -62,8 +63,68 @@ git clone git@github.com:jinrunheng/imooc-news.git
     cd mybatis-generator 
     mvn flyway:clean flyway:migrate
     ```
-  
-#### 5. 启动 Redis
+#### 5. 启动 MongoDB 
+
+- 下载 MongoDB，本项目中，我使用的版本为 5.0.5，下载地址：`https://www.mongodb.com/try/download/enterprise`
+- 在 MongoDB 的根目录下，创建目录与文件，位置关系如下：
+    ```text
+    ├── data
+    │   ├── db
+    │   └── logs
+    │       └── mongodb.log
+    ```
+- 在 MongoDB 的根目录下，创建配置文件：`mongodb.conf`
+    配置文件内容如下：
+    ```text
+    # 端口号
+    port=27017
+    # 数据库文件位置
+    dbpath=/Users/macbook/Downloads/mongodb-macos-x86_64-enterprise-5.0.5/data/db
+    # 日志文件位置
+    logpath=/Users/macbook/Downloads/mongodb-macos-x86_64-enterprise-5.0.5/data/logs/mongodb.log
+    # 以追加日志的形式记录日志
+    logappend=true
+    # 过滤掉无用的日志信息，若需要调试请设置为false
+    quiet=true
+    # 以后台方式运行
+    fork=true
+    # 最大同时连接数
+    maxConns=100
+    # 不启用验证权限
+    noauth=true
+    # 启用用户账号权限
+    # auth=true
+    # 开启日志，默认为 true
+    journal=true
+    # 提供外网访问，不对ip 进行绑定，原理同 Redis 的 bindip
+    bind_ip=0.0.0.0
+    ```
+- 安装 `net-snmp`
+    - Mac OS 使用命令：`brew install net-snmp`
+    - Linux 使用命令：`yum install net-snmp` 
+- 以加载配置文件的形式启动 MongoDB：
+```bash
+mongod -f mongodb.conf
+```  
+当终端启动成功后，会显示如下的字样：
+```text
+➜  mongodb-macos-x86_64-enterprise-5.0.5 mongod -f mongodb.conf
+about to fork child process, waiting until server is ready for connections.
+forked process: 81678
+child process started successfully, parent exiting
+```
+- 停止 MongoDB 服务
+使用命令：
+```bash
+kill -2 81678
+```
+或
+```bash
+kill -9 81678
+```
+即可
+
+#### 6. 启动 Redis
 
 你可以选择使用 Docker 容器，也可以在本地启动 Redis 服务，本项目使用的方式为本地启动 Redis，使用 Redis 版本为 6.0.9。
 
@@ -73,11 +134,11 @@ redis-server
 ```
 开启 Redis 服务。
 
-#### 6. 关于阿里云与腾讯云服务
+#### 7. 关于阿里云与腾讯云服务
 
 在本项目中，用到了腾讯云短信服务与阿里云 OSS 存储，实现这两项服务对应的工具类为 imooc-news-dev-common 模块下的 `/src/main/com/imooc/utils` 包中的 `SMSUtils` 与 `FileUploadUtils` ，需要用户自己去开通服务并进行配置。
 
-#### 7. Swagger2 在线调试地址
+#### 8. Swagger2 在线调试地址
 
 Swagger2 是一个可以根据代码自动生成 API 文档的框架，用于生成，描述，调用可视化 RESTful 风格的 Web 服务。
 
@@ -95,7 +156,7 @@ Swagger2 是一个可以根据代码自动生成 API 文档的框架，用于生
 
     http://admin.imoocnews.com:8005/doc.html
 
-#### 8. Chrome 开启视频调试模式
+#### 9. Chrome 开启视频调试模式
 
 本项目中，管理员登录涉及到人脸登录识别，需要对 Chrome 浏览器开始视频调试模式。
 
