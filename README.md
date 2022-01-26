@@ -11,6 +11,7 @@
 - 腾讯云短信服务
 - 阿里云 OSS 存储
 - ~~阿里云内容安全(服务未开通)~~
+- 人脸识别登录 
 
 ### 如何在本地运行该项目
 #### 1. 将项目 clone 到本地，并刷新 Maven 依赖
@@ -53,12 +54,15 @@ git clone git@github.com:jinrunheng/imooc-news.git
     ```
 - 运行 MySQL 容器   
     ```bash
-cd    ```
-- 进入到项目的子目录 `mybatis-generator` 下 ，使用 Flyway 完成数据的初始化
-    ```bash
-    mvn flyway:clean flyway:migrate
+    docker run --name imooc-news -e MYSQL_ROOT_PASSWORD=123 -e MYSQL_DATABASE=imooc-news-dev -e TZ=Asia/Shanghai -p 3306:3306 -d mysql
     ```
 
+- 进入到项目的子目录 `mybatis-generator` 下 ，使用 Flyway 完成数据的初始化
+    ```bash
+    cd mybatis-generator 
+    mvn flyway:clean flyway:migrate
+    ```
+  
 #### 5. 启动 Redis
 
 你可以选择使用 Docker 容器，也可以在本地启动 Redis 服务，本项目使用的方式为本地启动 Redis，使用 Redis 版本为 6.0.9。
@@ -166,6 +170,27 @@ Swagger2 是一个可以根据代码自动生成 API 文档的框架，用于生
 这样就有效避免了数据库与缓存不一致的情况。
 
 缓存双删的优点是大大降低了数据库与缓存不一致的概率的发生，缺点为一定程度上降低了吞吐量。
+
+#### 2. 人脸识别登录
+
+人脸入库流程：
+
+- 勾选'人脸登录'
+- 出现人脸捕捉画面
+- 点击'获取人脸'
+- 提交信息
+    - 如果提交中有人脸信息，则进行人脸入库（GridFS），并保存 admin 信息
+    - 如果提交中无人脸信息，则直接保存 admin 信息
+
+人脸登录流程：
+
+- 使用人脸识别登录
+- 出现人脸捕捉画面
+- 点击登录获取人脸
+- 对人脸进行校验
+    - 如果校验成功则登录成功
+    - 如果校验失败则返回登录失败
+    
 
 ### Bug Report
 
