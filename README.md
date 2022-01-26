@@ -94,6 +94,22 @@ Swagger2 是一个可以根据代码自动生成 API 文档的框架，用于生
 - dev-service-admin
 
     http://admin.imoocnews.com:8005/doc.html
+
+#### 8. Chrome 开启视频调试模式
+
+本项目中，管理员登录涉及到人脸登录识别，需要对 Chrome 浏览器开始视频调试模式。
+
+由于我们配置的域名地址并不是 `https`，所以需要对 Chrome 浏览器进行设置。
+
+在 Chrome 浏览器中，输入网址：
+```text
+chrome://flags/#unsafely-treat-insecure-origin-as-secure
+```
+在 `Insecure origins treated as secure` 下方对输入框中输入：
+```text
+http://admin.imoocnews.com:9090,http://admin.imoocnews.com
+```
+这样便可以启用摄像头。
         
 ### 项目亮点
 
