@@ -103,26 +103,26 @@ git clone git@github.com:jinrunheng/imooc-news.git
     - Mac OS 使用命令：`brew install net-snmp`
     - Linux 使用命令：`yum install net-snmp` 
 - 以加载配置文件的形式启动 MongoDB：
-```bash
-mongod -f mongodb.conf
-```  
-当终端启动成功后，会显示如下的字样：
-```text
-➜  mongodb-macos-x86_64-enterprise-5.0.5 mongod -f mongodb.conf
-about to fork child process, waiting until server is ready for connections.
-forked process: 81678
-child process started successfully, parent exiting
-```
+    ```bash
+    mongod -f mongodb.conf
+    ```  
+    当终端启动成功后，会显示如下的字样：
+    ```text
+    ➜  mongodb-macos-x86_64-enterprise-5.0.5 mongod -f mongodb.conf
+    about to fork child process, waiting until server is ready for connections.
+    forked process: 81678
+    child process started successfully, parent exiting
+    ```
 - 停止 MongoDB 服务
-使用命令：
-```bash
-kill -2 81678
-```
-或
-```bash
-kill -9 81678
-```
-即可
+    使用命令：
+    ```bash
+    kill -2 81678
+    ```
+    或
+    ```bash
+    kill -9 81678
+    ```
+    即可
 
 #### 6. 启动 Redis
 
