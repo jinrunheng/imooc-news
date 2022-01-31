@@ -25,3 +25,7 @@ spring:
     multipart:
       max-file-size: 512000 # 限制一次请求单个文件大小，最大为 500 KB
       max-request-size: 512000 # 限制一次请求多个文件大小，最大为 500 KB
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017
+      database: imooc-news

@@ -1,6 +1,7 @@
 package com.imooc.files.controller;
 
 import com.imooc.api.controller.files.FileUploadControllerApi;
+import com.imooc.bo.AddNewAdminBO;
 import com.imooc.enums.ResponseStatus;
 import com.imooc.files.service.FileUploadService;
 import com.imooc.result.JsonResult;
@@ -78,5 +79,10 @@ public class FileUploadController implements FileUploadControllerApi {
 //            return new JsonResult(ResponseStatus.SUCCESS, FAIL_IMAGE_URL);
 //        }
         return new JsonResult(ResponseStatus.SUCCESS, path);
+    }
+
+    @Override
+    public JsonResult uploadToGridFS(AddNewAdminBO newAdminBO) {
+        return null;
     }
 }

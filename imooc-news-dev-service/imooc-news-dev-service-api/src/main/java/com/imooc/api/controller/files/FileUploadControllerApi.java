@@ -1,9 +1,11 @@
 package com.imooc.api.controller.files;
 
+import com.imooc.bo.AddNewAdminBO;
 import com.imooc.result.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,4 +22,13 @@ public interface FileUploadControllerApi {
     @ApiOperation(value = "上传用户头像", notes = "上传用户头像", httpMethod = "POST")
     @PostMapping("/uploadFace")
     JsonResult uploadFace(@RequestParam String userId, MultipartFile file);
+
+    /**
+     * 文件上传到 MongoDB 的 GridFS 中
+     *
+     * @param newAdminBO
+     * @return
+     */
+    @PostMapping("/uploadToGridFS")
+    JsonResult uploadToGridFS(@RequestBody AddNewAdminBO newAdminBO);
 }
