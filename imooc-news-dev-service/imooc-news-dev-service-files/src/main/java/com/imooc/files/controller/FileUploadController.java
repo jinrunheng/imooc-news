@@ -6,12 +6,16 @@ import com.imooc.enums.ResponseStatus;
 import com.imooc.files.service.FileUploadService;
 import com.imooc.result.JsonResult;
 import com.imooc.utils.ImageReviewUtils;
+import com.mongodb.client.gridfs.GridFSBucket;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.ByteArrayInputStream;
+import java.util.Base64;
 
 /**
  * @Author Dooby Kim
@@ -30,6 +34,9 @@ public class FileUploadController implements FileUploadControllerApi {
 
     // 目前"审核失败"这张图片的 URL 地址是写死的
     // private static final String FAIL_IMAGE_URL = "https://tva1.sinaimg.cn/large/008i3skNgy1gxzqinm2vpj30ku0msgn0.jpg";
+
+    @Resource
+    private GridFSBucket gridFSBucket;
 
     /**
      * 上传头像
@@ -81,8 +88,25 @@ public class FileUploadController implements FileUploadControllerApi {
         return new JsonResult(ResponseStatus.SUCCESS, path);
     }
 
+    /**
+     * 上传人脸数据到 MongoDB 的 GridFS，实现人脸入库
+     * 实现流程：
+     * 1.
+     *
+     * @param newAdminBO
+     * @return
+     */
     @Override
     public JsonResult uploadToGridFS(AddNewAdminBO newAdminBO) {
-        return null;
+        // 获取图片的 base64 字符串
+        String img64 = newAdminBO.getImg64();
+        // 将 base64 字符串转换为 byte 数组
+        byte[] bytes = Base64.getDecoder().decode(img64.trim());
+        // 将 byte 数组转换为输入流
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+        // 上传至 GridFS 中，并获取文件在 GridFS 中的主键 ID
+        ObjectId fileId = gridFSBucket.uploadFromStream(newAdminBO.getAdminName() + ".png", byteArrayInputStream);
+
+        return new JsonResult(ResponseStatus.SUCCESS, fileId.toString());
     }
 }
