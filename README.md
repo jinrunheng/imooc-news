@@ -131,7 +131,6 @@ git clone git@github.com:jinrunheng/imooc-news.git
     ```bash
     kill -9 81678
     ```
-    即可
 
 #### 6. 启动 Redis
 

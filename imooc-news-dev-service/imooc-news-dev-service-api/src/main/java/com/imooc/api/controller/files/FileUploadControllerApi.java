@@ -4,11 +4,10 @@ import com.imooc.bo.AddNewAdminBO;
 import com.imooc.result.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Author Dooby Kim
@@ -31,4 +30,14 @@ public interface FileUploadControllerApi {
      */
     @PostMapping("/uploadToGridFS")
     JsonResult uploadToGridFS(@RequestBody AddNewAdminBO newAdminBO);
+
+    /**
+     * 从 GridFS 中读取图片内容
+     *
+     * @param faceId
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/readInGridFS")
+    void readInGridFS(HttpServletResponse response, String faceId) throws Exception;
 }

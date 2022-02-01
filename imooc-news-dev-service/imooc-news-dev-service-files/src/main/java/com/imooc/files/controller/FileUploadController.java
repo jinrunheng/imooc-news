@@ -3,10 +3,15 @@ package com.imooc.files.controller;
 import com.imooc.api.controller.files.FileUploadControllerApi;
 import com.imooc.bo.AddNewAdminBO;
 import com.imooc.enums.ResponseStatus;
+import com.imooc.exception.MyCustomException;
 import com.imooc.files.service.FileUploadService;
 import com.imooc.result.JsonResult;
+import com.imooc.utils.FileUtils;
 import com.imooc.utils.ImageReviewUtils;
 import com.mongodb.client.gridfs.GridFSBucket;
+import com.mongodb.client.gridfs.GridFSFindIterable;
+import com.mongodb.client.gridfs.model.GridFSFile;
+import com.mongodb.client.model.Filters;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
@@ -14,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.ByteArrayInputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.Base64;
 
 /**
@@ -112,5 +118,50 @@ public class FileUploadController implements FileUploadControllerApi {
         ObjectId fileId = gridFSBucket.uploadFromStream(newAdminBO.getAdminName() + ".png", byteArrayInputStream);
 
         return new JsonResult(ResponseStatus.SUCCESS, fileId.toString());
+    }
+
+    /**
+     * 从 GridFS 中读取图片内容
+     * 逻辑流程：
+     * 1. 判断传入的 faceId 是否为空("" 或 null)，如果为空，则直接抛出自定义异常"文件不存在"
+     * 2. 从 GridFS 中读取
+     * 3. 将人脸图片输出到浏览器
+     *
+     * @param faceId
+     * @return
+     */
+    @Override
+    public void readInGridFS(HttpServletResponse response, String faceId) throws Exception {
+        if (StringUtils.isBlank(faceId) || faceId.equalsIgnoreCase("null")) {
+            MyCustomException.display(ResponseStatus.FILE_NOT_EXIST_ERROR);
+        }
+
+        File adminFace = readFileFromGridFSByFaceId(faceId);
+        FileUtils.downloadFile(response, adminFace);
+    }
+
+    private File readFileFromGridFSByFaceId(String faceId) throws FileNotFoundException {
+        System.out.println(faceId);
+        GridFSFindIterable gridFSFiles = gridFSBucket.find(Filters.eq("_id", new ObjectId(faceId)));
+        GridFSFile gridFSFile = gridFSFiles.first();
+        if (gridFSFile == null) {
+            MyCustomException.display(ResponseStatus.FILE_NOT_EXIST_ERROR);
+        }
+        String filename = gridFSFile.getFilename();
+        log.info("GridFS Filename : {}", filename);
+
+        // 保存文件到服务器临时目录
+        File fileTemp = new File("/Users/macbook/workspace/tmp");
+        if (!fileTemp.exists()) {
+            fileTemp.mkdirs();
+        }
+        File file = new File("/Users/macbook/workspace/tmp/" + faceId + "-" + filename);
+
+        // 创建文件输出流
+        OutputStream os = new FileOutputStream(file);
+        // 下载到服务器
+        gridFSBucket.downloadToStream(new ObjectId(faceId), os);
+
+        return file;
     }
 }

@@ -38,6 +38,8 @@ public enum ResponseStatus {
     FILE_FORMAT_ERROR(512, false, "图片格式不支持，仅支持 PNG，JPG，JPEG"),
     // 文件上传：文件大小超出限制
     FILE_SIZE_EXCEEDS_LIMIT_ERROR(513, false, "仅支持 512 KB 大小以下的文件"),
+    // 文件不存在
+    FILE_NOT_EXIST_ERROR(514, false, "文件不存在"),
 
     // admin：管理员登录名不能为空
     ADMIN_USERNAME_NULL_ERROR(561, false, "管理员登录名不能为空"),
