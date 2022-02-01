@@ -91,7 +91,11 @@ public class FileUploadController implements FileUploadControllerApi {
     /**
      * 上传人脸数据到 MongoDB 的 GridFS，实现人脸入库
      * 实现流程：
-     * 1.
+     * 1. 获取图片的 base64 字符串
+     * 2. 将 base64 字符串转换为 byte 数组
+     * 3. 将 byte 数组转换为输入流
+     * 4. 上传至 GridFS 中，并获取文件在 GridFS 中的主键 ID
+     * 5. 将主键 ID 返回给前端
      *
      * @param newAdminBO
      * @return

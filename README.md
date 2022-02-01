@@ -113,6 +113,15 @@ git clone git@github.com:jinrunheng/imooc-news.git
     forked process: 81678
     child process started successfully, parent exiting
     ```
+- 创建数据库
+    进入到 MongoDB 客户端，使用命令：
+    ```bash
+    mongo
+    ```  
+    创建数据库，使用命令：
+    ```bash
+    use imooc-news
+    ```
 - 停止 MongoDB 服务
     使用命令：
     ```bash
