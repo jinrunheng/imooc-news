@@ -7,7 +7,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileNotFoundException;
 
 /**
  * @Author Dooby Kim
@@ -40,4 +42,15 @@ public interface FileUploadControllerApi {
      */
     @GetMapping("/readInGridFS")
     void readInGridFS(HttpServletResponse response, String faceId) throws Exception;
+
+    /**
+     * 通过 faceId，从 GridFS 中获取图片（base64）数据
+     *
+     * @param request
+     * @param response
+     * @param faceId
+     * @return
+     */
+    @GetMapping("/getFace64ByFaceId")
+    JsonResult getFace64ByFaceId(HttpServletRequest request, HttpServletResponse response, String faceId) throws Exception;
 }

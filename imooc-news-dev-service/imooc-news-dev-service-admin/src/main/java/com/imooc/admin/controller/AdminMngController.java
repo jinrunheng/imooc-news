@@ -195,7 +195,7 @@ public class AdminMngController implements AdminMngControllerApi {
      * admin 管理员人脸登录
      * 逻辑流程：
      * 1. 判断用户名和人脸信息不能为空
-     * 2. 从数据库中查询 faceId
+     * 2. 从数据库中查询 faceId，需要对 faceId 进行是否为空的判断
      * 3. 请求文件服务，从 MongoDB 的 GridFS 中获得关联了 faceId 的 base64 数据
      * 4. 使用腾讯云人脸对比识别，判断可信度，从而实现 admin 管理员人脸登录
      * 5. 设置 admin 登录后的缓存，包括 Redis 以及 Cookie 的设置
@@ -220,7 +220,9 @@ public class AdminMngController implements AdminMngControllerApi {
         AdminUser adminUser = adminUserService.queryAdminByUsername(adminLoginBO.getUsername());
         String adminFaceId = adminUser.getFaceId();
 
-
+        if (StringUtils.isBlank(adminFaceId)) {
+            return new JsonResult(ResponseStatus.ADMIN_FACE_LOGIN_ERROR);
+        }
         return null;
     }
 

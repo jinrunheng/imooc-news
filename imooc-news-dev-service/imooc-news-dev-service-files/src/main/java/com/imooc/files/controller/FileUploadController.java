@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Base64;
@@ -138,6 +139,25 @@ public class FileUploadController implements FileUploadControllerApi {
 
         File adminFace = readFileFromGridFSByFaceId(faceId);
         FileUtils.downloadFile(response, adminFace);
+    }
+
+    /**
+     * 通过 faceId，从 GridFS 中获取图片（base64）数据
+     * <p>
+     * 逻辑流程：
+     * 1. 获得 GridFS 中的人脸文件
+     * 2. 将文件转换为 base64
+     *
+     * @param request
+     * @param response
+     * @param faceId
+     * @return
+     */
+    @Override
+    public JsonResult getFace64ByFaceId(HttpServletRequest request, HttpServletResponse response, String faceId) throws Exception {
+        File file = readFileFromGridFSByFaceId(faceId);
+        String base64 = FileUtils.fileToBase64(file);
+        return new JsonResult(ResponseStatus.SUCCESS, base64);
     }
 
     private File readFileFromGridFSByFaceId(String faceId) throws FileNotFoundException {

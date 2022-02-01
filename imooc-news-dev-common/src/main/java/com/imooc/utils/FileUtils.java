@@ -2,11 +2,10 @@ package com.imooc.utils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 /**
  * 文件工具类
@@ -66,5 +65,30 @@ public class FileUtils {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * 将文件转换为 base64 字符串
+     *
+     * @param file
+     * @return
+     */
+    public static String fileToBase64(File file) throws UnsupportedEncodingException {
+        InputStream in = null;
+        byte[] fileData = null;
+        // 读取文件字节数组
+        try {
+            in = new FileInputStream(file);
+            fileData = new byte[in.available()];
+            in.read(fileData);
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // 对字节数组 base64 编码并且返回
+        Base64.Encoder encoder = Base64.getEncoder();
+        byte[] encode = encoder.encode(fileData);
+        return new String(encode, StandardCharsets.UTF_8);
     }
 }
