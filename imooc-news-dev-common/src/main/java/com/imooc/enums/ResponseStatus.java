@@ -52,8 +52,11 @@ public enum ResponseStatus {
     // admin：密码不能为空
     ADMIN_PASSWORD_NULL_ERROR(566, false, "密码不能为空"),
     // admin：管理员不存在或密码错误
-    ADMIN_NOT_EXIT_ERROR(567, false, "管理员不存在或密码错误");
-
+    ADMIN_NOT_EXIT_ERROR(567, false, "管理员不存在或密码错误"),
+    // admin：人脸信息不能为空
+    ADMIN_FACE_NULL_ERROR(568, false, "人脸信息不能为空"),
+    // admin：人脸识别失败
+    ADMIN_FACE_LOGIN_ERROR(569, false, "人脸识别失败，请重试");
 
     private Integer status;
     private Boolean success;
