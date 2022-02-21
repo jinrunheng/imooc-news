@@ -12,8 +12,10 @@ import com.imooc.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +39,9 @@ public class AdminMngController implements AdminMngControllerApi {
 
     @Resource
     private RedisOperator redisOperator;
+
+    @Resource
+    private RestTemplate restTemplate;
 
     @Value("${website.domain-name}")
     public String domainName;
@@ -223,6 +228,12 @@ public class AdminMngController implements AdminMngControllerApi {
         if (StringUtils.isBlank(adminFaceId)) {
             return new JsonResult(ResponseStatus.ADMIN_FACE_LOGIN_ERROR);
         }
+
+        String fileServerUrlExecute = "http://files.imoocnews.com:8004/fs/getFace64ByFaceId?faceId=" + adminFaceId;
+        ResponseEntity<JsonResult> responseEntity = restTemplate.getForEntity(fileServerUrlExecute, JsonResult.class);
+        JsonResult result = responseEntity.getBody();
+        String base64DB = result.getData().toString();
+
         return null;
     }
 
