@@ -11,6 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class JsonResult {
     // 响应状态码
     private Integer status;

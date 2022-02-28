@@ -43,6 +43,9 @@ public class AdminMngController implements AdminMngControllerApi {
     @Resource
     private RestTemplate restTemplate;
 
+    @Resource
+    private CompareFaceUtils compareFaceUtils;
+
     @Value("${website.domain-name}")
     public String domainName;
 
@@ -234,7 +237,15 @@ public class AdminMngController implements AdminMngControllerApi {
         JsonResult result = responseEntity.getBody();
         String base64DB = result.getData().toString();
 
-        return null;
+        boolean res = compareFaceUtils.compare(tmpFaceImg64, base64DB);
+
+        if (!res) {
+            return new JsonResult(ResponseStatus.ADMIN_FACE_LOGIN_ERROR);
+        }
+
+        setToken(adminUser, request, response);
+
+        return JsonResult.ok();
     }
 
     private void checkAdminExist(String username) {
