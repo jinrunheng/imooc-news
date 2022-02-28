@@ -14,10 +14,18 @@ import org.springframework.stereotype.Component;
  * @Author Dooby Kim
  * @Date 2022/2/21 9:48 下午
  * @Version 1.0
+ * @Description 基于腾讯云人脸识别的人脸对比工具类
  */
 @Component
 public class CompareFaceUtils {
 
+    /**
+     * 如果两张人脸图片的相似度为 60 分以上，则认为两张人脸图片是同一个人的人脸
+     *
+     * @param imgABase64 图片 A 的 Base64 字符串
+     * @param imgBBase64 图片 B 的 Base64 字符串
+     * @return
+     */
     public boolean compare(String imgABase64, String imgBBase64) {
         try {
             String secretId = System.getenv("TENCENT_SECRET_ID");
