@@ -12,7 +12,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  * @Version 1.0
  */
 
-@SpringBootApplication(exclude = MongoAutoConfiguration.class)
+@SpringBootApplication// (exclude = MongoAutoConfiguration.class)
 @MapperScan(basePackages = "com.imooc.admin.mapper")
 @ComponentScan(basePackages = {"com.imooc"})
 public class AdminApplication {

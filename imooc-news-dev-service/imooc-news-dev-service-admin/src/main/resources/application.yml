@@ -34,10 +34,13 @@ spring:
       pool-name: DateSourceHikariCP   # 连接池名字
       max-lifetime: 1800000           # 连接的生命时长（毫秒），超时而且没被使用则被释放（retired），默认:30分钟 1800000 ms
       connection-test-query: SELECT 1
-
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017
+      database: imooc-news
 ############################################################
 #
 # mybatis 配置
