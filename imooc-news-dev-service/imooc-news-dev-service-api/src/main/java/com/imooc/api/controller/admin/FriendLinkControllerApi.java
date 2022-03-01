@@ -4,13 +4,11 @@ import com.imooc.bo.SaveFriendLinkBO;
 import com.imooc.result.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
@@ -24,5 +22,5 @@ public interface FriendLinkControllerApi {
 
     @ApiOperation(value = "新增或修改友情链接", notes = "新增或修改友情链接", httpMethod = "POST")
     @PostMapping("/saveOrUpdateFriendLink")
-    JsonResult saveOrUpdateFriendLink(@RequestBody @Valid SaveFriendLinkBO adminLoginBO, BindResult result);
+    JsonResult saveOrUpdateFriendLink(@RequestBody @Valid SaveFriendLinkBO saveFriendLinkBO, BindingResult result);
 }

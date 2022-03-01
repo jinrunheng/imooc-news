@@ -1,5 +1,6 @@
 package com.imooc.user.controller;
 
+import com.imooc.api.controller.BaseController;
 import com.imooc.api.controller.user.PassportControllerApi;
 import com.imooc.bo.RegisterLoginBO;
 import com.imooc.enums.ResponseStatus;
@@ -15,16 +16,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * @Author Dooby Kim

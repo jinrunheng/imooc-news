@@ -1,5 +1,6 @@
 package com.imooc.user.controller;
 
+import com.imooc.api.controller.BaseController;
 import com.imooc.api.controller.user.UserInfoControllerApi;
 import com.imooc.bo.UpdateUserInfoBO;
 import com.imooc.enums.ResponseStatus;
