@@ -11,7 +11,7 @@
 - 腾讯云短信服务
 - 阿里云 OSS 存储
 - ~~阿里云内容安全(服务未开通)~~
-- 人脸识别登录
+- 人脸识别登录(腾讯云人脸对比)
 - MongoDB 
 
 ### 如何在本地运行该项目
@@ -65,7 +65,7 @@ git clone git@github.com:jinrunheng/imooc-news.git
     ```
 #### 5. 启动 MongoDB 
 
-- 下载 MongoDB，本项目中，我使用的版本为 5.0.5，下载地址：`https://www.mongodb.com/try/download/enterprise`
+- 下载 MongoDB，本项目中，我使用的版本为 5.0.6，下载地址：`https://www.mongodb.com/try/download/enterprise`
 - 在 MongoDB 的根目录下，创建目录与文件，位置关系如下：
     ```text
     ├── data
@@ -79,9 +79,9 @@ git clone git@github.com:jinrunheng/imooc-news.git
     # 端口号
     port=27017
     # 数据库文件位置
-    dbpath=/Users/macbook/Downloads/mongodb-macos-x86_64-enterprise-5.0.5/data/db
+    dbpath=/Users/macbook/Downloads/mongodb-macos-x86_64-enterprise-5.0.6/data/db
     # 日志文件位置
-    logpath=/Users/macbook/Downloads/mongodb-macos-x86_64-enterprise-5.0.5/data/logs/mongodb.log
+    logpath=/Users/macbook/Downloads/mongodb-macos-x86_64-enterprise-5.0.6/data/logs/mongodb.log
     # 以追加日志的形式记录日志
     logappend=true
     # 过滤掉无用的日志信息，若需要调试请设置为false
