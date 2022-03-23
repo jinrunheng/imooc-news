@@ -52,4 +52,10 @@ public class FriendLinkController extends BaseController implements FriendLinkCo
 
         return new JsonResult(ResponseStatus.SUCCESS, friendLinkService.queryAllFriendLinkList());
     }
+
+    @Override
+    public JsonResult delete(String linkId) {
+        friendLinkService.delete(linkId);
+        return JsonResult.ok();
+    }
 }
