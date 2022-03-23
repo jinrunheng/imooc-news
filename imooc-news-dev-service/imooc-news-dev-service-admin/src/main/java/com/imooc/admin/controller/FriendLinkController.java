@@ -46,4 +46,10 @@ public class FriendLinkController extends BaseController implements FriendLinkCo
 
         return JsonResult.ok();
     }
+
+    @Override
+    public JsonResult getFriendLinkList() {
+
+        return new JsonResult(ResponseStatus.SUCCESS, friendLinkService.queryAllFriendLinkList());
+    }
 }

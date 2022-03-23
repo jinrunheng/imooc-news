@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @Author Dooby Kim
@@ -23,5 +24,10 @@ public class FriendLinkServiceImpl implements FriendLinkService {
     @Override
     public void saveOrUpdateFriendLink(FriendLinkMO friendLinkMO) {
         friendLinkRepository.save(friendLinkMO);
+    }
+
+    @Override
+    public List<FriendLinkMO> queryAllFriendLinkList() {
+        return friendLinkRepository.findAll();
     }
 }
