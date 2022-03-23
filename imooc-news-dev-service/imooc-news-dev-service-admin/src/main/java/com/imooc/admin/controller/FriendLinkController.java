@@ -1,17 +1,18 @@
 package com.imooc.admin.controller;
 
+import com.imooc.admin.service.FriendLinkService;
 import com.imooc.api.controller.BaseController;
 import com.imooc.api.controller.admin.FriendLinkControllerApi;
 import com.imooc.bo.SaveFriendLinkBO;
 import com.imooc.enums.ResponseStatus;
-import com.imooc.mo.SaveFriendLinkMO;
+import com.imooc.mo.FriendLinkMO;
 import com.imooc.result.JsonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.Map;
@@ -25,6 +26,8 @@ import java.util.Map;
 @RestController
 public class FriendLinkController extends BaseController implements FriendLinkControllerApi {
 
+    @Resource
+    private FriendLinkService friendLinkService;
 
     @Override
     public JsonResult saveOrUpdateFriendLink(@Valid SaveFriendLinkBO saveFriendLinkBO, BindingResult result) {
@@ -33,12 +36,13 @@ public class FriendLinkController extends BaseController implements FriendLinkCo
             return new JsonResult(ResponseStatus.FAILED, errors);
         }
 
-        SaveFriendLinkMO saveFriendLinkMO = new SaveFriendLinkMO();
+        FriendLinkMO saveFriendLinkMO = new FriendLinkMO();
         BeanUtils.copyProperties(saveFriendLinkBO, saveFriendLinkMO);
         saveFriendLinkMO.setCreateTime(new Date());
         saveFriendLinkMO.setUpdateTime(new Date());
 
         // TODO:MongoDB 持久层操作保存记录
+        friendLinkService.saveOrUpdateFriendLink(saveFriendLinkMO);
 
         return JsonResult.ok();
     }

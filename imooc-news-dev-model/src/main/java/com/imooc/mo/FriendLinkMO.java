@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
@@ -17,7 +18,8 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class SaveFriendLinkMO {
+@Document("FriendLink")
+public class FriendLinkMO {
     @Id
     private String id;
     @Field("link_name")
