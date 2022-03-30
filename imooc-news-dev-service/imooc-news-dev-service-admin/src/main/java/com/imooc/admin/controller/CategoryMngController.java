@@ -1,20 +1,25 @@
 package com.imooc.admin.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.imooc.admin.service.CategoryService;
 import com.imooc.api.controller.BaseController;
 import com.imooc.api.controller.admin.CategoryMngControllerApi;
 import com.imooc.bo.SaveCategoryBO;
 import com.imooc.enums.ResponseStatus;
-import com.imooc.exception.MyCustomException;
 import com.imooc.pojo.Category;
 import com.imooc.result.JsonResult;
+import com.imooc.utils.JsonUtils;
+import com.imooc.utils.RedisKeyUtils;
+import com.imooc.utils.RedisOperator;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,6 +33,9 @@ public class CategoryMngController extends BaseController implements CategoryMng
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private RedisOperator redisOperator;
 
     /**
      * 流程：
@@ -74,5 +82,38 @@ public class CategoryMngController extends BaseController implements CategoryMng
             }
         }
         return null;
+    }
+
+    @Override
+    public JsonResult getCatList() {
+        List<Category> categories = categoryService.queryCategoryList();
+        return new JsonResult(ResponseStatus.SUCCESS, categories);
+    }
+
+    /**
+     * 流程：
+     * <p>
+     * 1. 从 Redis 中查询
+     * ---- 1. 如果有，则直接返回
+     * ---- 2. 如果没有，则直接查询数据库，然后再放入缓存并返回
+     *
+     * @return
+     */
+    @Override
+    public JsonResult getCats() {
+
+        String allCatJson = redisOperator.get(RedisKeyUtils.REDIS_ALL_CATEGORY);
+
+        List<Category> categoryList = null;
+
+        if (StringUtils.isBlank(allCatJson)) {
+            categoryList = categoryService.queryCategoryList();
+            redisOperator.set(RedisKeyUtils.REDIS_ALL_CATEGORY, JsonUtils.objectToJson(categoryList));
+        } else {
+            categoryList = JsonUtils.jsonToList(allCatJson, Category.class);
+        }
+
+        return new JsonResult(ResponseStatus.SUCCESS, categoryList);
+
     }
 }
