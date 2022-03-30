@@ -8,6 +8,8 @@ package com.imooc.utils;
  */
 public class RedisKeyUtils {
 
+    public static final String REDIS_ALL_CATEGORY = "redis_all_category";
+
     /**
      * Redis 中存储用户 ip 的 Key；限制 60 秒不能重复发送验证码
      *
@@ -57,4 +59,5 @@ public class RedisKeyUtils {
     public static String adminTokenKey(String adminId) {
         return "admin:token:" + adminId;
     }
+
 }

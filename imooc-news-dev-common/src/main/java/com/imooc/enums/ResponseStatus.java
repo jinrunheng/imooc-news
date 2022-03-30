@@ -56,7 +56,24 @@ public enum ResponseStatus {
     // admin：人脸信息不能为空
     ADMIN_FACE_NULL_ERROR(568, false, "人脸信息不能为空"),
     // admin：人脸识别失败
-    ADMIN_FACE_LOGIN_ERROR(569, false, "人脸识别失败，请重试");
+    ADMIN_FACE_LOGIN_ERROR(569, false, "人脸识别失败，请重试"),
+    CATEGORY_EXIST_ERROR(570, false, "文章分类已存在，请换一个分类名！"),
+
+    // 自定义系统级别异常 54x
+    SYSTEM_INDEX_OUT_OF_BOUNDS(541, false, "系统错误，数组越界！"),
+    SYSTEM_ARITHMETIC_BY_ZERO(542, false, "系统错误，无法除零！"),
+    SYSTEM_NULL_POINTER(543, false, "系统错误，空指针！"),
+    SYSTEM_NUMBER_FORMAT(544, false, "系统错误，数字转换异常！"),
+    SYSTEM_PARSE(545, false, "系统错误，解析异常！"),
+    SYSTEM_IO(546, false, "系统错误，IO输入输出异常！"),
+    SYSTEM_FILE_NOT_FOUND(547, false, "系统错误，文件未找到！"),
+    SYSTEM_CLASS_CAST(548, false, "系统错误，类型强制转换错误！"),
+    SYSTEM_PARSER_ERROR(549, false, "系统错误，解析出错！"),
+    SYSTEM_DATE_PARSER_ERROR(550, false, "系统错误，日期解析出错！"),
+    // 系统错误，未预期的错误 555
+    SYSTEM_ERROR(555, false, "系统繁忙，请稍后再试！"),
+    SYSTEM_OPERATION_ERROR(556, false, "操作失败，请重试或联系管理员"),
+    SYSTEM_RESPONSE_NO_INFO(557, false, "");
 
     private Integer status;
     private Boolean success;
