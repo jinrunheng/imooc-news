@@ -1,6 +1,5 @@
 package com.imooc.admin.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.imooc.admin.service.CategoryService;
 import com.imooc.api.controller.BaseController;
 import com.imooc.api.controller.admin.CategoryMngControllerApi;

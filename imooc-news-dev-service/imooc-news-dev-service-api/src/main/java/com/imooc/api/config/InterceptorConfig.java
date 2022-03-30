@@ -56,7 +56,9 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .addPathPatterns("/fs/readInGridFS")
                 .addPathPatterns("/friendLinkMng/saveOrUpdateFriendLink")
                 .addPathPatterns("/friendLinkMng/getFriendLinkList")
-                .addPathPatterns("/friendLinkMng/delete");
+                .addPathPatterns("/friendLinkMng/delete")
+                .addPathPatterns("/categoryMng/saveOrUpdateCategory")
+                .addPathPatterns("/categoryMng/getCatList");
 
 //        registry.addInterceptor(userStatusCheckInterceptor())
 //                .addPathPatterns();
