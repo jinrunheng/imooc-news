@@ -38,8 +38,8 @@ public class PageUtils {
         return PageInfoVO.builder()
                 .page(page)
                 .rows(list)
-                .records(pageInfo.getPages())
-                .total(pageInfo.getTotal())
+                .records(pageInfo.getTotal())
+                .total(pageInfo.getPages())
                 .build();
     }
 }

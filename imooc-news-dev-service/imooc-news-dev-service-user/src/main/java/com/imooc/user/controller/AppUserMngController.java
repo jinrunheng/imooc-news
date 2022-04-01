@@ -2,8 +2,12 @@ package com.imooc.user.controller;
 
 import com.imooc.api.controller.BaseController;
 import com.imooc.api.controller.user.AppUserMngControllerApi;
+import com.imooc.enums.ResponseStatus;
 import com.imooc.result.JsonResult;
+import com.imooc.user.service.AppUserMngService;
+import com.imooc.utils.PageUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
@@ -16,8 +20,17 @@ import java.util.Date;
 @RestController
 @Slf4j
 public class AppUserMngController extends BaseController implements AppUserMngControllerApi {
+
+    @Autowired
+    private AppUserMngService appUserMngService;
+
     @Override
-    public JsonResult queryAll(String nickName, Integer status, Date startDate, Date endDate, Integer page, Integer pageSize) {
+    public JsonResult queryAll(String nickname,
+                               Integer status,
+                               Date startDate,
+                               Date endDate,
+                               Integer page,
+                               Integer pageSize) {
         if (page == null) {
             page = 1;
         }
@@ -26,6 +39,8 @@ public class AppUserMngController extends BaseController implements AppUserMngCo
             pageSize = 10;
         }
 
-        return JsonResult.ok();
+        PageUtils.PageInfoVO pageInfoVO = appUserMngService.queryAllUserList(nickname, status, startDate, endDate, page, pageSize);
+
+        return new JsonResult(ResponseStatus.SUCCESS, pageInfoVO);
     }
 }

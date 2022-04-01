@@ -19,4 +19,14 @@ public enum UserStatus {
 
     private Integer type;
     private String value;
+
+    public static boolean isUserStatusValid(Integer status) {
+        if (status != null) {
+            if (status == INACTIVE.type || status == ACTIVE.type || status == FROZEN.type) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

@@ -20,7 +20,7 @@ public interface AppUserMngControllerApi {
 
     @PostMapping("queryAll")
     @ApiOperation(value = "查询所有用户", notes = "查询所有用户", httpMethod = "POST")
-    JsonResult queryAll(@RequestParam String nickName,
+    JsonResult queryAll(@RequestParam String nickname,
                         @RequestParam Integer status,
                         @RequestParam Date startDate,
                         @RequestParam Date endDate,
