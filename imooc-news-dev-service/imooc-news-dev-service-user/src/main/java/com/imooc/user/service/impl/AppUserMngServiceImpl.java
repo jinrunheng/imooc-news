@@ -9,6 +9,7 @@ import com.imooc.utils.PageUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
@@ -54,5 +55,14 @@ public class AppUserMngServiceImpl implements AppUserMngService {
         List<AppUser> list = appUserMapper.selectByExample(example);
 
         return PageUtils.setPageInfo(list, page);
+    }
+
+    @Override
+    @Transactional
+    public void freezeUserOrNot(String userId, Integer doStatus) {
+        AppUser user = new AppUser();
+        user.setId(userId);
+        user.setActiveStatus(doStatus);
+        appUserMapper.updateByPrimaryKeySelective(user);
     }
 }

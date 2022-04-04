@@ -28,4 +28,12 @@ public interface AppUserMngService {
                                           Date endDate,
                                           Integer page,
                                           Integer pageSize);
+
+    /**
+     * 冻结用户账号，或解除冻结状态
+     *
+     * @param userId
+     * @param doStatus
+     */
+    void freezeUserOrNot(String userId, Integer doStatus);
 }

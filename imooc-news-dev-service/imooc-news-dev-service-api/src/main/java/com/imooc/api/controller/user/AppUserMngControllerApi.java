@@ -30,4 +30,8 @@ public interface AppUserMngControllerApi {
     @PostMapping("userDetail")
     @ApiOperation(value = "查看用户详情", notes = "查看用户详情", httpMethod = "POST")
     JsonResult userDetail(@RequestParam String userId);
+
+    @PostMapping("freezeUserOrNot")
+    @ApiOperation(value = "冻结用户或者解冻用户", notes = "冻结用户或者解冻用户", httpMethod = "POST")
+    JsonResult freezeUserOrNot(@RequestParam String userId, @RequestParam Integer doStatus);
 }

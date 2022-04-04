@@ -40,6 +40,7 @@ public enum ResponseStatus {
     FILE_SIZE_EXCEEDS_LIMIT_ERROR(513, false, "仅支持 512 KB 大小以下的文件"),
     // 文件不存在
     FILE_NOT_EXIST_ERROR(514, false, "文件不存在"),
+    USER_STATUS_ERROR(515, false, "用户状态参数出错"),
 
     // admin：管理员登录名不能为空
     ADMIN_USERNAME_NULL_ERROR(561, false, "管理员登录名不能为空"),
