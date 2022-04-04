@@ -5,6 +5,7 @@ import com.imooc.api.controller.user.AppUserMngControllerApi;
 import com.imooc.enums.ResponseStatus;
 import com.imooc.result.JsonResult;
 import com.imooc.user.service.AppUserMngService;
+import com.imooc.user.service.UserService;
 import com.imooc.utils.PageUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class AppUserMngController extends BaseController implements AppUserMngCo
     @Autowired
     private AppUserMngService appUserMngService;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public JsonResult queryAll(String nickname,
                                Integer status,
@@ -42,5 +46,10 @@ public class AppUserMngController extends BaseController implements AppUserMngCo
         PageUtils.PageInfoVO pageInfoVO = appUserMngService.queryAllUserList(nickname, status, startDate, endDate, page, pageSize);
 
         return new JsonResult(ResponseStatus.SUCCESS, pageInfoVO);
+    }
+
+    @Override
+    public JsonResult userDetail(String userId) {
+        return new JsonResult(ResponseStatus.SUCCESS, userService.getUser(userId));
     }
 }

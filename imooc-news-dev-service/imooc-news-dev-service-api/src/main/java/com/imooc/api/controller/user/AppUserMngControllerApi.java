@@ -26,4 +26,8 @@ public interface AppUserMngControllerApi {
                         @RequestParam Date endDate,
                         @RequestParam Integer page,
                         @RequestParam Integer pageSize);
+
+    @PostMapping("userDetail")
+    @ApiOperation(value = "查看用户详情", notes = "查看用户详情", httpMethod = "POST")
+    JsonResult userDetail(@RequestParam String userId);
 }
