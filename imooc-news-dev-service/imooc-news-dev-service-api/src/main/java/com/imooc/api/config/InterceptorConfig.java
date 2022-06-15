@@ -1,9 +1,6 @@
 package com.imooc.api.config;
 
-import com.imooc.api.interceptor.AdminTokenInterceptor;
-import com.imooc.api.interceptor.PassportInterceptor;
-import com.imooc.api.interceptor.UserStatusCheckInterceptor;
-import com.imooc.api.interceptor.UserTokenInterceptor;
+import com.imooc.api.interceptor.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -29,6 +26,11 @@ public class InterceptorConfig implements WebMvcConfigurer {
     }
 
     @Bean
+    public UserActiveInterceptor userActiveInterceptor() {
+        return new UserActiveInterceptor();
+    }
+
+    @Bean
     public UserStatusCheckInterceptor userStatusCheckInterceptor() {
         return new UserStatusCheckInterceptor();
     }
@@ -46,7 +48,11 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(userTokenInterceptor())
                 .addPathPatterns("/user/getAccountInfo")
                 .addPathPatterns("/user/updateUserInfo")
-                .addPathPatterns("/fs/uploadFace");
+                .addPathPatterns("/fs/uploadFace")
+                .addPathPatterns("/fs/uploadSomeFiles");
+
+        registry.addInterceptor(userActiveInterceptor())
+                .addPathPatterns("/fs/uploadSomeFiles");
 
         registry.addInterceptor(adminTokenInterceptor())
                 .addPathPatterns("/adminMng/adminIsExist")

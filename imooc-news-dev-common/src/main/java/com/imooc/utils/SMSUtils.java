@@ -37,7 +37,7 @@ public class SMSUtils {
 
             // 实例化一个 http 选项，可选，无特殊需求可以跳过
             HttpProfile httpProfile = new HttpProfile();
-            // httpProfile.setReqMethod("POST"); // 默认使用 POST 请求
+            httpProfile.setReqMethod("POST"); // 默认使用 POST 请求
             httpProfile.setEndpoint("sms.tencentcloudapi.com");
 
             // 实例化一个 Client 选项
@@ -61,6 +61,7 @@ public class SMSUtils {
             // 模版内容：验证码为：{1}，您正在登录，若非本人操作，请勿泄露。
             String[] templateParam = {code};
             request.setTemplateParamSet(templateParam);
+
 
             // 返回的 response 是一个 SendSmsResponse 实例，与请求对象对应
             SendSmsResponse response = client.SendSms(request);
@@ -89,5 +90,10 @@ public class SMSUtils {
             sb.append((int) (Math.random() * 9 + 1));
         }
         return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        SMSUtils smsUtils = new SMSUtils();
+        smsUtils.sendSMS("15526787357",smsUtils.generateSMSCode());
     }
 }

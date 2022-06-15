@@ -20,9 +20,24 @@ import java.io.FileNotFoundException;
 @RequestMapping("fs")
 public interface FileUploadControllerApi {
 
-    @ApiOperation(value = "上传用户头像", notes = "上传用户头像", httpMethod = "POST")
+    /**
+     * 上传单个文件（图片）
+     * @param userId
+     * @param file
+     * @return
+     */
+    // @ApiOperation(value = "上传用户头像", notes = "上传用户头像", httpMethod = "POST")
     @PostMapping("/uploadFace")
     JsonResult uploadFace(@RequestParam String userId, MultipartFile file);
+
+    /**
+     * 上传多个文件
+     * @param userId
+     * @param file
+     * @return
+     */
+    @PostMapping("/uploadSomeFiles")
+    JsonResult uploadSomeFiles(@RequestParam String userId, MultipartFile[] files);
 
     /**
      * 文件上传到 MongoDB 的 GridFS 中

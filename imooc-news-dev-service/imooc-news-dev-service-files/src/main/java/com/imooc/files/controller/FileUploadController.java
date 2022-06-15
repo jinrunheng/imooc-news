@@ -22,7 +22,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 /**
  * @Author Dooby Kim
@@ -93,6 +95,48 @@ public class FileUploadController implements FileUploadControllerApi {
 //            return new JsonResult(ResponseStatus.SUCCESS, FAIL_IMAGE_URL);
 //        }
         return new JsonResult(ResponseStatus.SUCCESS, path);
+    }
+
+    /**
+     * 上传多个文件
+     * <p>
+     * 逻辑流程：
+     * 1. 声明一个 List，用于存放多个图片的路径，返回至前端
+     * 2. 遍历 files 数组，对于没一个每一个 file 上传逻辑同 uploadFace
+     *
+     * @param userId
+     * @param files
+     * @return
+     */
+    @Override
+    public JsonResult uploadSomeFiles(String userId, MultipartFile[] files) {
+
+        List<String> imageUrlList = new ArrayList<>();
+        if (files != null && files.length > 0) {
+            for (MultipartFile file : files) {
+                if (file.isEmpty() || StringUtils.isBlank(file.getOriginalFilename())) {
+                    return new JsonResult(ResponseStatus.FILE_UPLOAD_EMPTY_ERROR);
+                }
+                String originalFilename = file.getOriginalFilename();
+                String suffix = originalFilename.substring(originalFilename.lastIndexOf('.') + 1);
+                if (!suffix.equalsIgnoreCase("png")
+                        && !suffix.equalsIgnoreCase("jpg")
+                        && !suffix.equalsIgnoreCase("jpeg")) {
+                    continue;
+                }
+
+                String path = fileUploadService.upload(file, userId, suffix);
+
+                if (StringUtils.isBlank(path)) {
+                    continue;
+                }
+                log.info("File Path : {}", path);
+                // FIXME: 放入到 imageURLList 前需要对图片进行审核
+                imageUrlList.add(path);
+            }
+        }
+
+        return new JsonResult(ResponseStatus.SUCCESS, imageUrlList);
     }
 
     /**
