@@ -37,7 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
             MyCustomException.display(ResponseStatus.SYSTEM_OPERATION_ERROR);
         }
 
-        // 直接使用 redis 删除缓存，用户端在查询时会直接查询数据哭，再将最新的数据放进 Redis 缓存
+        // 直接使用 redis 删除缓存，用户端在查询时会直接查询数据库，再将最新的数据放进 Redis 缓存
         redisOperator.delete(RedisKeyUtils.REDIS_ALL_CATEGORY);
     }
 
@@ -48,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (result != 1) {
             MyCustomException.display(ResponseStatus.SYSTEM_OPERATION_ERROR);
         }
-        // 直接使用 redis 删除缓存，用户端在查询时会直接查询数据哭，再将最新的数据放进 Redis 缓存
+        // 直接使用 redis 删除缓存，用户端在查询时会直接查询数据库，再将最新的数据放进 Redis 缓存
         redisOperator.delete(RedisKeyUtils.REDIS_ALL_CATEGORY);
     }
 
