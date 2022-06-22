@@ -2,6 +2,7 @@ package com.imooc.article.controller;
 
 import com.imooc.api.controller.BaseController;
 import com.imooc.api.controller.article.ArticleControllerApi;
+import com.imooc.article.service.ArticleService;
 import com.imooc.bo.NewArticleBO;
 import com.imooc.enums.ArticleCoverType;
 import com.imooc.enums.ResponseStatus;
@@ -31,6 +32,9 @@ public class ArticleController extends BaseController implements ArticleControll
 
     @Resource
     private RedisOperator redisOperator;
+
+    @Resource
+    private ArticleService articleService;
 
     /**
      * 逻辑流程：
@@ -66,13 +70,13 @@ public class ArticleController extends BaseController implements ArticleControll
         }
 
         // 判断文章分类 id 是否存在
+        Category category = null;
         String allCatJson = redisOperator.get(RedisKeyUtils.REDIS_ALL_CATEGORY);
         if (StringUtils.isBlank(allCatJson)) {
             return new JsonResult(ResponseStatus.SYSTEM_OPERATION_ERROR);
         } else {
             List<Category> catList = JsonUtils.jsonToList(allCatJson, Category.class);
 
-            Category category = null;
             for (Category c : catList) {
                 if (c.getId() == newArticleBO.getCategoryId()) {
                     category = c;
@@ -84,9 +88,10 @@ public class ArticleController extends BaseController implements ArticleControll
                 return new JsonResult(ResponseStatus.ARTICLE_CATEGORY_NOT_EXIST_ERROR);
             }
 
-            System.out.println(newArticleBO.toString());
-
-            return JsonResult.ok();
         }
+
+        articleService.createArticle(newArticleBO, category);
+
+        return JsonResult.ok();
     }
 }
