@@ -1,5 +1,7 @@
 package com.imooc.article.task;
 
+import com.imooc.article.service.ArticleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -12,16 +14,20 @@ import java.time.LocalDateTime;
  * @Version 1.0
  * 定时发布文章（定时任务）
  */
-@Configuration
-@EnableScheduling
+//@Configuration
+//@EnableScheduling
 public class TaskPublishArticles {
 
+    @Autowired
+    private ArticleService articleService;
+
     /**
-     * 添加定时任务，
+     * 添加定时任务
      */
-    @Scheduled(cron = "0/3****?")
+    @Scheduled(cron = "0/3 * * * * ?")
     private void publishArticles() {
         System.out.println("执行定时任务: " + LocalDateTime.now());
         // TODO:调用文章 service，将当前时间应该发布的定时文章的状态改为即时
+        articleService.updateAppointToPublish();
     }
 }

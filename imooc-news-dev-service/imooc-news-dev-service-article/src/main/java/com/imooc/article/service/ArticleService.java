@@ -10,5 +10,16 @@ import com.imooc.pojo.Category;
  */
 public interface ArticleService {
 
+    /**
+     * 创建文章
+     *
+     * @param newArticleBO
+     * @param category
+     */
     void createArticle(NewArticleBO newArticleBO, Category category);
+
+    /**
+     * 更新定时发布为即时发布
+     */
+    void updateAppointToPublish();
 }

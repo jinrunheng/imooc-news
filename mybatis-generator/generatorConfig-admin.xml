@@ -26,7 +26,7 @@
         <sqlMapGenerator targetPackage="mapper.admin" targetProject="mybatis-generator/src/main/resources"/>
 
         <!-- 生成对应的 mapper 接口所在目录 -->
-        <javaClientGenerator targetPackage="com.imooc.mapper.admin" targetProject="mybatis-generator/src/main/java"
+        <javaClientGenerator targetPackage="com.imooc.admin.mapper" targetProject="mybatis-generator/src/main/java"
                              type="XMLMAPPER"/>
 
         <!-- 数据库表 -->

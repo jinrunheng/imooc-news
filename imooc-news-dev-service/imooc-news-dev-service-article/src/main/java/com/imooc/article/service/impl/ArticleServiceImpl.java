@@ -1,6 +1,7 @@
 package com.imooc.article.service.impl;
 
 import com.imooc.article.mapper.ArticleMapper;
+import com.imooc.article.mapper.ArticleMapperCustom;
 import com.imooc.article.service.ArticleService;
 import com.imooc.bo.NewArticleBO;
 import com.imooc.enums.ArticleAppointType;
@@ -36,6 +37,9 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleMapper articleMapper;
 
     @Autowired
+    private ArticleMapperCustom articleMapperCustom;
+
+    @Autowired
     public RedisOperator redisOperator;
 
     @Override
@@ -68,5 +72,11 @@ public class ArticleServiceImpl implements ArticleService {
         if (res != 1) {
             MyCustomException.display(ResponseStatus.ARTICLE_CREATE_ERROR);
         }
+    }
+
+    @Override
+    @Transactional
+    public void updateAppointToPublish() {
+        articleMapperCustom.updateAppointToPublish();
     }
 }
